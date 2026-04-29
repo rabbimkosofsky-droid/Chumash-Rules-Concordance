@@ -1,0 +1,2301 @@
+<!DOCTYPE html>
+<html lang="he" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>קונקורדנציה — Chumash Rules Concordance</title>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#1B3A6B; --navy-light:#2a5090; --navy-dark:#0f2245;
+  --gold:#C9A84C; --gold-light:#e8c87a; --gold-pale:#FDF0DC;
+  --cream:#FDF9F2; --cream-dark:#F5EDD6; --cream-mid:#F9F4E8;
+  --ink:#1a1814; --ink-mid:#4a4540; --ink-light:#8a8278; --ink-faint:#b8b2a8;
+  --border:rgba(26,24,20,0.10); --border-strong:rgba(26,24,20,0.20);
+  --white:#ffffff;
+  --tense-avar-bg:#E8F0FA; --tense-avar-fg:#1a3a6b;
+  --tense-hove-bg:#E6F5E9; --tense-hove-fg:#1a5c2a;
+  --tense-atid-bg:#FAEAE6; --tense-atid-fg:#6b1b1b;
+  --tense-tzivui-bg:#FDF0DC; --tense-tzivui-fg:#6b4010;
+  --tense-inf-bg:#EEEAF8; --tense-inf-fg:#3a1a6b;
+  --binyan-qal-bg:#F0EDE8; --binyan-qal-fg:#3a3530;
+  --binyan-niphal-bg:#E2F3EE; --binyan-niphal-fg:#0a4a38;
+  --binyan-piel-bg:#F8E8F0; --binyan-piel-fg:#5a1a40;
+  --binyan-hiphil-bg:#E6EFF8; --binyan-hiphil-fg:#0a3060;
+  --binyan-hitpael-bg:#FBF0DC; --binyan-hitpael-fg:#5a3808;
+  --sfx-bg:#F0E8F8; --sfx-fg:#3a0a6b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Crimson Pro',Georgia,serif;background:var(--cream);color:var(--ink);min-height:100vh;font-size:16px}
+.page-header{background:var(--navy);color:var(--white);padding:1.25rem 2rem 1rem;border-bottom:3px solid var(--gold)}
+.header-top{display:flex;align-items:flex-end;gap:1.5rem;flex-wrap:wrap;margin-bottom:.3rem}
+.title-heb{font-family:'Frank Ruhl Libre',serif;font-size:28px;font-weight:700;direction:rtl;color:var(--gold-light)}
+.title-en{font-size:16px;font-weight:300;opacity:.85;font-style:italic}
+.header-sub{font-size:11px;opacity:.5;font-style:italic}
+.tab-nav{background:var(--navy-dark);display:flex;border-bottom:2px solid var(--gold);overflow-x:auto}
+.tab-btn{background:transparent;border:none;color:rgba(255,255,255,0.5);font-family:'Crimson Pro',serif;font-size:13px;padding:9px 18px;cursor:pointer;transition:all .15s;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.tab-btn:hover{color:var(--gold-light)}
+.tab-btn.active{color:var(--gold-light);border-bottom-color:var(--gold);background:rgba(255,255,255,0.06)}
+.controls{background:var(--white);border-bottom:1px solid var(--border);padding:.65rem 2rem;display:flex;gap:6px;flex-wrap:wrap;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.search-wrap{position:relative;flex:1;min-width:160px;max-width:260px}
+.search-wrap svg{position:absolute;left:8px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none}
+input[type=text]{width:100%;padding:5px 8px 5px 28px;font-family:'Crimson Pro',serif;font-size:13px;border:1px solid var(--border-strong);border-radius:6px;background:var(--cream);color:var(--ink);outline:none;transition:border-color .15s;height:30px}
+input[type=text]:focus{border-color:var(--navy-light);background:var(--white)}
+select{padding:5px 24px 5px 8px;font-family:'Crimson Pro',serif;font-size:12px;border:1px solid var(--border-strong);border-radius:6px;background:var(--cream);color:var(--ink);cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a8278'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;height:30px}
+select:focus{border-color:var(--navy-light);background-color:var(--white)}
+.ctrl-label{font-size:11px;color:var(--ink-light);white-space:nowrap;font-style:italic}
+.ctrl-divider{width:1px;background:var(--border-strong);height:22px;margin:0 2px}
+.paradigm-panel{background:var(--cream-mid);border-bottom:1px solid var(--border);padding:.6rem 2rem;display:none}
+.paradigm-panel.open{display:block}
+.paradigm-title{font-family:'Frank Ruhl Libre',serif;font-size:12px;color:var(--navy);margin-bottom:.5rem;font-weight:500}
+.paradigm-grid{display:flex;flex-wrap:wrap;gap:5px}
+.pchip{background:var(--white);border:1px solid var(--border-strong);border-radius:20px;padding:3px 10px;font-size:11px;cursor:pointer;font-family:'Crimson Pro',serif;transition:all .12s;color:var(--ink-mid);white-space:nowrap}
+.pchip:hover{border-color:var(--navy);color:var(--navy)}
+.pchip.selected{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.pchip .heb{font-family:'Frank Ruhl Libre',serif;font-size:13px;margin-right:3px}
+.stats-bar{padding:.45rem 2rem;background:var(--cream-dark);border-bottom:1px solid var(--border);display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;font-size:11px;color:var(--ink-mid)}
+.stats-bar strong{color:var(--navy);font-size:13px}
+.export-btn{margin-left:auto;display:flex;gap:5px;flex-wrap:wrap}
+.exp-btn{background:var(--white);border:1px solid var(--border-strong);border-radius:6px;padding:3px 10px;font-family:'Crimson Pro',serif;font-size:11px;cursor:pointer;color:var(--ink-mid);transition:all .12s;white-space:nowrap;height:24px}
+.exp-btn:hover{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.main-content{padding:1rem 2rem 3rem}
+.table-card{background:var(--white);border-radius:10px;border:1px solid var(--border-strong);overflow:hidden;box-shadow:0 2px 12px rgba(26,24,20,0.07)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead{background:var(--navy);color:var(--white)}
+th{padding:8px 10px;font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:10px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.08)}
+th:last-child{border-right:none}
+th.th-heb{text-align:right;direction:rtl}
+th.th-ctr{text-align:center}
+td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr.verb-row:hover td{background:#F8F5EE;cursor:pointer}
+tr.verb-row.expanded td{background:var(--gold-pale)!important}
+.group-header td{background:var(--cream-dark);font-family:'Frank Ruhl Libre',serif;font-size:11px;font-weight:500;color:var(--navy);letter-spacing:.04em;padding:4px 10px;border-bottom:1px solid var(--border-strong)}
+.word-cell{font-family:'Frank Ruhl Libre',serif;font-size:17px;font-weight:500;direction:rtl;text-align:right;color:var(--ink);white-space:nowrap}
+.root-cell{font-family:'Frank Ruhl Libre',serif;font-size:13px;direction:rtl;text-align:right;color:var(--ink-mid)}
+.ref-cell{font-size:10px;color:var(--ink-light);white-space:nowrap;font-style:italic}
+.pill{display:inline-block;font-size:10px;padding:2px 6px;border-radius:10px;font-family:'Frank Ruhl Libre',serif;font-weight:500;white-space:nowrap}
+.pgn-cell{font-size:10px;color:var(--ink-light);text-align:center;font-variant:small-caps}
+.vav-yes{color:#1a5c2a;font-weight:600;font-size:12px;text-align:center}
+.vav-no{color:var(--border-strong);text-align:center}
+.en-cell{font-size:11px;color:var(--ink-mid);font-style:italic}
+.empty-state{text-align:center;padding:2.5rem 2rem;color:var(--ink-light);font-style:italic;font-size:14px}
+.count-badge{display:inline-flex;align-items:center;justify-content:center;background:var(--navy);color:var(--white);font-size:9px;font-weight:700;border-radius:10px;padding:1px 5px;margin-left:4px;font-family:'Crimson Pro',serif;min-width:18px}
+.sfx-pill{display:inline-block;font-size:9px;padding:1px 5px;border-radius:8px;background:var(--sfx-bg);color:var(--sfx-fg);font-family:'Frank Ruhl Libre',serif;margin-left:3px;font-weight:500}
+mark.hl{background:rgba(201,168,76,0.4);border-radius:2px;padding:0 1px}
+.context-row td{padding:0;border-bottom:1px solid var(--gold)}
+.context-inner{background:var(--gold-pale);padding:.75rem 1.25rem}
+.context-verse{direction:rtl;font-family:'Frank Ruhl Libre',serif;font-size:16px;line-height:1.9;margin-bottom:.4rem}
+.context-meta{font-size:11px;color:var(--ink-light);font-family:'Crimson Pro',serif;font-style:italic;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.4rem}
+.context-sfx-title{font-size:10px;color:var(--ink-light);font-family:'Crimson Pro',serif;font-style:italic;margin-bottom:.25rem}
+.context-sfx-grid{display:flex;flex-wrap:wrap;gap:4px}
+.sfx-chip{background:var(--white);border:1px solid var(--border-strong);border-radius:6px;padding:3px 8px;font-size:11px;display:inline-flex;align-items:center;gap:6px}
+.sfx-chip .sfx-form{font-family:'Frank Ruhl Libre',serif;direction:rtl;font-size:14px;color:var(--navy)}
+.sfx-chip .sfx-label{font-size:10px;color:var(--ink-light);font-family:'Crimson Pro',serif;font-style:italic}
+.parse-panel{background:var(--white);border-bottom:1px solid var(--border);padding:1rem 2rem}
+.parse-title{font-family:'Frank Ruhl Libre',serif;font-size:15px;color:var(--navy);margin-bottom:.5rem;font-weight:500}
+.parse-desc{font-size:12px;color:var(--ink-mid);margin-bottom:.75rem;font-style:italic}
+textarea{width:100%;height:120px;font-family:'Frank Ruhl Libre',serif;font-size:14px;direction:rtl;padding:10px;border:1px solid var(--border-strong);border-radius:8px;background:var(--cream);color:var(--ink);resize:vertical;outline:none;line-height:1.7}
+textarea:focus{border-color:var(--navy-light);background:var(--white)}
+.parse-controls{display:flex;gap:8px;align-items:center;margin-top:.6rem;flex-wrap:wrap}
+.parse-book-input{font-family:'Crimson Pro',serif;font-size:13px;padding:6px 10px;border:1px solid var(--border-strong);border-radius:6px;background:var(--cream);color:var(--ink);outline:none;height:34px}
+.parse-btn{background:var(--navy);color:var(--white);border:none;border-radius:8px;padding:8px 20px;font-family:'Crimson Pro',serif;font-size:13px;cursor:pointer;transition:all .15s;font-weight:500}
+.parse-btn:hover{background:var(--navy-light)}
+.parse-btn:disabled{background:var(--ink-faint);cursor:not-allowed}
+.parse-status{font-size:12px;color:var(--ink-mid);font-style:italic}
+.parse-status.error{color:#8b1a1a}
+.parse-status.success{color:#1a5c2a}
+.progress-bar{width:100%;height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:6px;display:none}
+.progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .3s;width:0%}
+.pronoun-section{margin-top:1.5rem}
+.pron-heading{font-family:'Frank Ruhl Libre',serif;font-size:16px;color:var(--navy);margin-bottom:.4rem;display:flex;align-items:center;gap:.6rem}
+.pron-heading::after{content:'';flex:1;height:1px;background:var(--border-strong)}
+.pron-desc{font-size:12px;color:var(--ink-mid);font-style:italic;margin-bottom:.75rem}
+.pron-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem}
+.pron-card{background:var(--white);border-radius:10px;border:1px solid var(--border-strong);overflow:hidden;box-shadow:0 1px 6px rgba(26,24,20,0.06)}
+.pron-card-title{background:var(--navy);color:var(--white);padding:7px 12px;font-family:'Frank Ruhl Libre',serif;font-size:12px;letter-spacing:.04em;display:flex;justify-content:space-between;align-items:center}
+.pron-card-title .heb{font-size:14px;color:var(--gold-light)}
+.pron-table{width:100%;border-collapse:collapse;font-size:11px}
+.pron-table th{padding:5px 8px;background:var(--cream-dark);font-family:'Frank Ruhl Libre',serif;font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-mid);border-bottom:1px solid var(--border)}
+.pron-table th.th-heb{text-align:right;direction:rtl}
+.pron-table td{padding:5px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.pron-table tr:last-child td{border-bottom:none}
+.pron-table tr:hover td{background:var(--cream-mid)}
+.sfx-heb{font-family:'Frank Ruhl Libre',serif;font-size:14px;direction:rtl;text-align:right;color:var(--ink)}
+.footer-note{margin-top:1.25rem;font-size:10px;color:var(--ink-faint);font-style:italic;text-align:center;line-height:1.7}
+.db-counter{background:var(--gold-pale);border:1px solid var(--gold);border-radius:20px;padding:2px 10px;font-size:11px;color:var(--navy);font-weight:500;font-family:'Frank Ruhl Libre',serif}
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:1rem}
+.stat-card{background:var(--white);border-radius:10px;border:1px solid var(--border-strong);padding:1rem 1.25rem;box-shadow:0 1px 6px rgba(26,24,20,0.06)}
+.stat-card-title{font-family:'Frank Ruhl Libre',serif;font-size:13px;color:var(--navy);font-weight:500;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.stat-card-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.bar-label{width:120px;text-align:right;color:var(--ink-mid);font-family:'Frank Ruhl Libre',serif;font-size:12px;direction:rtl;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{flex:1;background:var(--cream-dark);border-radius:3px;height:14px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width .5s ease;min-width:2px}
+.bar-count{width:36px;text-align:right;color:var(--ink-light);font-size:10px;flex-shrink:0}
+.stat-number{font-family:'Frank Ruhl Libre',serif;font-size:36px;font-weight:700;color:var(--navy);line-height:1}
+.stat-label{font-size:11px;color:var(--ink-light);margin-top:.2rem;font-style:italic}
+@media(max-width:700px){
+  .page-header,.controls,.stats-bar,.main-content,.parse-panel{padding-left:1rem;padding-right:1rem}
+  .pron-grid{grid-template-columns:1fr}
+  .title-heb{font-size:22px}
+  .stats-grid{grid-template-columns:1fr}
+}
+
+/* ── Column sort arrows ── */
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:hover{background:var(--navy-light)}
+.sort-arrow{opacity:.35;font-size:9px;margin-left:2px;font-style:normal}
+th.asc .sort-arrow,th.asc>[id^="sa-"]{opacity:1;color:var(--gold-light)}
+th.desc .sort-arrow,th.desc>[id^="sa-"]{opacity:1;color:var(--gold-light)}
+#tab-verbs th.asc::after{content:' ↑';font-size:9px;opacity:.8}
+#tab-verbs th.desc::after{content:' ↓';font-size:9px;opacity:.8}
+
+/* ── Suffix concordance ── */
+.sfx-type-pill{display:inline-block;font-size:9px;padding:1px 5px;border-radius:8px;font-family:'Crimson Pro',serif;font-weight:600;letter-spacing:.03em}
+.sfx-type-obj{background:#E8F0FA;color:#1a3a6b}
+.sfx-type-poss{background:#F8E8F0;color:#5a1a40}
+.sfx-type-prep{background:#E2F3EE;color:#0a4a38}
+.sfx-type-construct{background:#FDF0DC;color:#6b4010}
+.sfx-type-other{background:#F0EDE8;color:#3a3530}
+.sfx-form-cell{font-family:'Frank Ruhl Libre',serif;font-size:16px;direction:rtl;text-align:right;color:var(--navy)}
+.sfx-word-type{font-size:10px;font-variant:small-caps;color:var(--ink-light)}
+
+/* ── Paradigm reference section ── */
+.paradigm-ref-toggle{background:var(--cream-dark);border:1px solid var(--border-strong);border-radius:6px;padding:6px 14px;font-family:'Crimson Pro',serif;font-size:12px;cursor:pointer;color:var(--ink-mid);width:100%;text-align:left;margin-bottom:0}
+.paradigm-ref-toggle:hover{background:var(--gold-pale);color:var(--navy)}
+.sfx-paradigm{background:var(--white);border-radius:10px;border:1px solid var(--border-strong);padding:1.25rem;box-shadow:0 1px 6px rgba(26,24,20,0.06)}
+.sfx-paradigm-title{font-family:'Frank Ruhl Libre',serif;font-size:14px;font-weight:500;color:var(--navy);margin-bottom:.25rem}
+.sfx-paradigm-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.sfx-pcard{background:var(--cream-mid);border-radius:8px;padding:.85rem;border:1px solid var(--border)}
+.sfx-pcard-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem;font-size:11px;color:var(--ink-mid);font-style:italic}
+.sfx-pcard-title .heb{font-family:'Frank Ruhl Libre',serif;font-size:15px;direction:rtl;color:var(--ink)}
+.pron-table{width:100%;border-collapse:collapse;font-size:11px}
+.pron-table td,.pron-table th{padding:3px 6px;border-bottom:1px solid var(--border)}
+.pron-table tr:last-child td{border-bottom:none}
+.pron-table .sfx-heb{font-family:'Frank Ruhl Libre',serif;font-size:14px;direction:rtl;text-align:right;color:var(--navy)}
+.sfx-empty{text-align:center;padding:2rem;font-style:italic;color:var(--ink-light);font-size:12px}
+@media(max-width:700px){.sfx-paradigm-grid{grid-template-columns:1fr}}
+
+
+/* ── Paste sub-tabs ── */
+.paste-subtab{background:transparent;border:none;color:rgba(255,255,255,0.5);font-family:'Crimson Pro',serif;font-size:13px;padding:8px 16px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .15s}
+.paste-subtab:hover{color:var(--gold-light)}
+.paste-subtab.active{color:var(--gold-light);border-bottom-color:var(--gold);background:rgba(255,255,255,0.06)}
+
+/* ── Auto-fetch log coloring ── */
+.log-ok{color:#1a5c2a}
+.log-skip{color:var(--ink-faint)}
+.log-err{color:#8b1a1a}
+.log-info{color:var(--navy)}
+.log-warn{color:#8b6a1a}
+
+/* ── Bottom slide-up panel ── */
+.ctx-panel{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:var(--white);border-top:2px solid var(--gold);box-shadow:0 -4px 28px rgba(26,24,20,0.18);transform:translateY(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);max-height:52vh;display:flex;flex-direction:column}
+.ctx-panel.open{transform:translateY(0)}
+.ctx-panel-handle{display:flex;align-items:center;justify-content:space-between;padding:.5rem 1.25rem .45rem;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--cream-mid);gap:1rem}
+.ctx-panel-left{display:flex;flex-direction:column;gap:2px;cursor:pointer;flex:1}
+.ctx-panel-ref{font-size:10px;color:var(--ink-light);font-style:italic;font-family:'Crimson Pro',serif}
+.ctx-panel-word{font-family:'Frank Ruhl Libre',serif;font-size:20px;color:var(--navy);direction:rtl;line-height:1.1}
+.ctx-panel-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.ctx-btn-minimize{background:var(--cream-dark);border:1px solid var(--border-strong);border-radius:5px;font-size:11px;padding:3px 9px;cursor:pointer;color:var(--ink-mid);font-family:'Crimson Pro',serif;transition:background .1s}
+.ctx-btn-minimize:hover{background:var(--gold-pale)}
+.ctx-btn-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--ink-light);padding:2px 6px;border-radius:4px;line-height:1;transition:background .1s}
+.ctx-btn-close:hover{background:var(--cream-dark);color:var(--ink)}
+.ctx-panel-body{overflow-y:auto;padding:.85rem 1.25rem;display:grid;grid-template-columns:2fr 1fr 1fr;gap:1.25rem;flex:1;min-height:0}
+.ctx-pasuk-col{grid-column:1}
+.ctx-info-col{grid-column:2}
+.ctx-occ-col{grid-column:3}
+.ctx-col-label{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-light);margin-bottom:.35rem;font-family:'Crimson Pro',serif}
+.ctx-pasuk{font-family:'Frank Ruhl Libre',serif;font-size:19px;line-height:2.1;direction:rtl;text-align:right;color:var(--ink);border-right:3px solid var(--gold);padding-right:.6rem}
+.ctx-pasuk mark{background:rgba(201,168,76,0.4);color:var(--navy-dark);font-weight:700;border-radius:3px;padding:0 2px}
+.ctx-pasuk-loading,.ctx-pasuk-err{font-size:12px;color:var(--ink-light);font-style:italic;font-family:'Crimson Pro',serif}
+.ctx-pasuk-err{color:#8b3a1a}
+.ctx-root-line{font-family:'Frank Ruhl Libre',serif;font-size:13px;color:var(--ink-light);direction:rtl;margin-bottom:.4rem}
+.ctx-root-line span{color:var(--navy);font-weight:500}
+.ctx-meta{display:flex;flex-wrap:wrap;gap:4px}
+.ctx-occ-list{max-height:130px;overflow-y:auto}
+.ctx-occ-item{font-size:11px;color:var(--ink-mid);border-bottom:1px solid var(--border);padding:3px 0;font-style:italic}
+.ctx-occ-item:last-child{border-bottom:none}
+.ctx-panel.open~* .main-content,.ctx-panel.open~#tab-verbs .main-content{padding-bottom:55vh}
+/* Simpler: pad the whole page when panel open */
+body.panel-open{padding-bottom:54vh}
+.ctx-panel.minimized{max-height:none}
+@media(max-width:700px){
+  .ctx-panel-body{grid-template-columns:1fr;max-height:60vh}
+  .ctx-pasuk-col,.ctx-info-col,.ctx-occ-col{grid-column:1}
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="header-top">
+    <span class="title-heb">קונקורדנציה — פועל</span>
+    <span class="title-en">Chumash Rules Concordance</span>
+    <span id="db-counter-badge" class="db-counter">0 verbs</span>
+  </div>
+  <div class="header-sub">All verb forms · root · binyan · tense · person–gender–number · pronominal suffixes · click any row for context · paste any chapter to expand</div>
+</header>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('verbs',this)">📖 Verb Forms</button>
+  <button class="tab-btn" onclick="switchTab('paste',this)">＋ Add Text</button>
+  <button class="tab-btn" onclick="switchTab('pronouns',this)">🔤 Pronominal Suffixes</button>
+  <button class="tab-btn" onclick="switchTab('stats',this)">📊 Statistics</button>
+</div>
+
+<!-- VERB TAB -->
+<div id="tab-verbs">
+<div class="controls" id="main-controls">
+  <!-- Row 1: Scope filters -->
+  <span class="ctrl-label">Division:</span>
+  <select id="f-division" onchange="onDivisionChange()">
+    <option value="">All Tanakh</option>
+    <option value="torah">תּוֹרָה Torah</option>
+    <option value="neviim">נְבִיאִים Nevi'im</option>
+    <option value="ketuvim">כְּתוּבִים Ketuvim</option>
+  </select>
+  <span class="ctrl-label">Sefer:</span>
+  <select id="f-sefer" onchange="onSeferChange()">
+    <option value="">All books</option>
+  </select>
+  <span class="ctrl-label">Parsha:</span>
+  <select id="f-parsha" onchange="render()">
+    <option value="">All parshiyot</option>
+  </select>
+  <span class="ctrl-label">Perek:</span>
+  <select id="f-perek" onchange="render()">
+    <option value="">All chapters</option>
+  </select>
+  <div class="ctrl-divider"></div>
+  <div class="search-wrap">
+    <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#1a1814" stroke-width="1.2"/><line x1="9.5" y1="9.5" x2="13" y2="13" stroke="#1a1814" stroke-width="1.2" stroke-linecap="round"/></svg>
+    <input type="text" id="search" placeholder="Search word, root, or translation…"/>
+  </div>
+  <span class="ctrl-label">Tense:</span>
+  <select id="f-tense">
+    <option value="">All</option>
+    <option value="avar">עָבַר Past</option>
+    <option value="hove">הוֹוֶה Present</option>
+    <option value="atid">עָתִיד Future</option>
+    <option value="tzivui">צִיווּי Imper.</option>
+    <option value="inf">אינפ׳ Inf.</option>
+    <option value="inf_abs">אינפ׳ מוחלט</option>
+  </select>
+  <span class="ctrl-label">Binyan:</span>
+  <select id="f-binyan">
+    <option value="">All</option>
+    <option value="Qal">קַל Qal</option>
+    <option value="Niphal">נִפְעַל Niphal</option>
+    <option value="Piel">פִּעֵל Piel</option>
+    <option value="Pual">פֻּעַל Pual</option>
+    <option value="Hiphil">הִפְעִיל Hiphil</option>
+    <option value="Hophal">הֻפְעַל Hophal</option>
+    <option value="Hitpael">הִתְפַּעֵל Hitpael</option>
+  </select>
+  <span class="ctrl-label">Person:</span>
+  <select id="f-person"><option value="">All</option><option value="1">1st</option><option value="2">2nd</option><option value="3">3rd</option></select>
+  <span class="ctrl-label">Number:</span>
+  <select id="f-number"><option value="">All</option><option value="s">Sg.</option><option value="p">Pl.</option></select>
+  <span class="ctrl-label">Gender:</span>
+  <select id="f-gender"><option value="">All</option><option value="m">Masc.</option><option value="f">Fem.</option><option value="c">Common</option></select>
+  <div class="ctrl-divider"></div>
+  <span class="ctrl-label">Root:</span>
+  <select id="f-root"><option value="">All roots</option></select>
+  <span class="ctrl-label">Suffixes:</span>
+  <select id="f-sfx"><option value="">Any</option><option value="has">Has suffix</option><option value="none">No suffix</option></select>
+  <span class="ctrl-label">Group:</span>
+  <select id="f-group">
+    <option value="none">None</option><option value="tense">Tense</option><option value="binyan">Binyan</option>
+    <option value="root">Root</option><option value="pgn">Person/Number</option><option value="ref">Chapter</option><option value="parsha">Parsha</option>
+  </select>
+  <span class="ctrl-label">Duplicates:</span>
+  <select id="f-dup"><option value="collapse">Collapse</option><option value="show">Show all</option></select>
+  <div class="ctrl-divider"></div>
+  <button class="exp-btn" style="height:30px;font-size:11px" onclick="toggleParadigm()" id="paradigm-btn">⊞ Paradigm</button>
+</div>
+
+<div class="paradigm-panel" id="paradigm-panel">
+  <div class="paradigm-title">Verb paradigms — click to filter, click again to clear</div>
+  <div class="paradigm-grid" id="paradigm-chips"></div>
+  <div class="paradigm-title" style="margin-top:.6rem;border-top:1px solid var(--border);padding-top:.5rem">Pronominal suffixes — filter verbs carrying a suffix</div>
+  <div class="paradigm-grid" id="sfx-paradigm-chips"></div>
+</div>
+
+<div class="stats-bar" id="stats-bar">
+  <span><strong id="count">0</strong> forms</span>
+  <span id="dup-note" style="font-size:10px;color:var(--ink-faint);font-style:italic"></span>
+  <span id="save-indicator" style="font-size:10px;color:var(--ink-faint);font-style:italic"></span>
+  <div class="export-btn">
+    <button class="exp-btn" onclick="exportCSV()">↓ CSV (filtered)</button>
+    <button class="exp-btn" onclick="exportAllCSV()" style="background:var(--gold-pale);border-color:var(--gold);color:var(--navy);font-weight:500">↓ Full DB backup</button>
+    <button class="exp-btn" onclick="exportTSV()">↓ TSV</button>
+    <button class="exp-btn" onclick="exportHTML()">↓ HTML</button>
+  </div>
+</div>
+
+<div class="main-content">
+  <div class="table-card">
+    <table>
+      <thead><tr>
+        <th class="th-sort sortable" data-col="0" onclick="sortBy(0)">Ref <span class="sort-arrow" id="sa-verb-ref"></span></th>
+        <th class="th-sort sortable th-heb" data-col="1" onclick="sortBy(1)">צורה <span class="sort-arrow" id="sa-verb-word"></span></th>
+        <th class="th-sort sortable th-heb" data-col="2" onclick="sortBy(2)">שורש <span class="sort-arrow" id="sa-verb-root"></span></th>
+        <th class="th-sort sortable" data-col="3" onclick="sortBy(3)">Tense <span class="sort-arrow" id="sa-verb-tense"></span></th>
+        <th class="th-sort sortable" data-col="4" onclick="sortBy(4)">Binyan <span class="sort-arrow" id="sa-verb-binyan"></span></th>
+        <th class="th-sort sortable th-ctr" data-col="5" onclick="sortBy(5)">P.G.N. <span class="sort-arrow" id="sa-verb-pgn"></span></th>
+        <th class="th-sort sortable th-ctr" data-col="6" onclick="sortBy(6)">ו״ה <span class="sort-arrow" id="sa-verb-vav"></span></th>
+        <th class="th-sort sortable" data-col="7" onclick="sortBy(7)">Translation <span class="sort-arrow" id="sa-verb-en"></span></th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <p class="footer-note" id="footer-note">Loading…</p>
+</div>
+</div>
+
+<!-- PASTE TAB -->
+<div id="tab-paste" style="display:none">
+
+<!-- ══ inner sub-tabs ══ -->
+<div style="background:var(--navy-dark);display:flex;border-bottom:1px solid var(--gold);padding:0 2rem">
+  <button class="paste-subtab active" id="pst-auto" onclick="switchPasteTab('auto',this)">🌐 Sefaria Auto-Fetch</button>
+  <button class="paste-subtab" id="pst-manual" onclick="switchPasteTab('manual',this)">✏️ Paste Manually</button>
+</div>
+
+<!-- ══ AUTO-FETCH PANEL ══ -->
+<div id="paste-auto" class="parse-panel">
+  <div class="parse-title">Auto-Fetch from Sefaria — ייבוא אוטומטי</div>
+  <div class="parse-desc">Choose a book and chapter range. The app fetches the Hebrew text from Sefaria's free public API and parses every chapter automatically — one button click for an entire book.</div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:1rem">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <label style="font-size:11px;color:var(--ink-light)">Book</label>
+      <select id="auto-book" style="font-family:'Frank Ruhl Libre',serif;font-size:13px;direction:rtl;padding-right:24px;min-width:200px">
+        <option value="Genesis">בְּרֵאשִׁית — Genesis</option>
+        <option value="Exodus">שְׁמוֹת — Exodus</option>
+        <option value="Leviticus">וַיִּקְרָא — Leviticus</option>
+        <option value="Numbers">בְּמִדְבַּר — Numbers</option>
+        <option value="Deuteronomy">דְּבָרִים — Deuteronomy</option>
+        <option value="Joshua">יְהוֹשֻׁעַ — Joshua</option>
+        <option value="Judges">שׁוֹפְטִים — Judges</option>
+        <option value="I Samuel">שְׁמוּאֵל א — 1 Samuel</option>
+        <option value="II Samuel">שְׁמוּאֵל ב — 2 Samuel</option>
+        <option value="I Kings">מְלָכִים א — 1 Kings</option>
+        <option value="II Kings">מְלָכִים ב — 2 Kings</option>
+        <option value="Isaiah">יְשַׁעְיָהוּ — Isaiah</option>
+        <option value="Jeremiah">יִרְמְיָהוּ — Jeremiah</option>
+        <option value="Ezekiel">יְחֶזְקֵאל — Ezekiel</option>
+        <option value="Psalms">תְּהִלִּים — Psalms</option>
+        <option value="Proverbs">מִשְׁלֵי — Proverbs</option>
+        <option value="Job">אִיּוֹב — Job</option>
+        <option value="Ruth">רוּת — Ruth</option>
+        <option value="Esther">אֶסְתֵּר — Esther</option>
+      </select>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <label style="font-size:11px;color:var(--ink-light)">From chapter</label>
+      <input type="number" id="auto-from" value="1" min="1" max="200" style="width:70px;text-align:center;font-family:'Crimson Pro',serif"/>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <label style="font-size:11px;color:var(--ink-light)">To chapter</label>
+      <input type="number" id="auto-to" value="50" min="1" max="200" style="width:70px;text-align:center;font-family:'Crimson Pro',serif"/>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <label style="font-size:11px;color:var(--ink-light)">&nbsp;</label>
+      <div style="display:flex;gap:6px">
+        <button class="parse-btn" id="auto-btn" onclick="startAutoFetch()">▶ Fetch &amp; Parse All</button>
+        <button class="parse-btn" id="auto-stop-btn" onclick="stopAutoFetch()" style="display:none;background:#c0392b;border-color:#c0392b">■ Stop</button>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;margin-left:auto">
+      <label style="font-size:11px;color:var(--ink-light)">Skip already-parsed</label>
+      <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;height:34px">
+        <input type="checkbox" id="auto-skip" checked style="width:14px;height:14px"/>
+        Skip existing chapters
+      </label>
+    </div>
+  </div>
+
+  <div class="progress-bar" id="auto-progress-bar" style="display:none"><div class="progress-fill" id="auto-progress-fill"></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:.4rem 0;font-size:11px;color:var(--ink-light)">
+    <span id="auto-status"></span>
+    <span id="auto-eta"></span>
+  </div>
+  <div id="auto-log" style="font-size:11px;color:var(--ink-mid);font-family:monospace;max-height:240px;overflow-y:auto;background:var(--cream);padding:.75rem;border-radius:6px;display:none;white-space:pre-wrap;line-height:1.7"></div>
+</div>
+
+<!-- ══ MANUAL PASTE PANEL ══ -->
+<div id="paste-manual" class="parse-panel" style="display:none">
+  <div class="parse-title">הוסף טקסט — Paste Hebrew Text</div>
+  <div class="parse-desc">Paste any chapter from Sefaria or AlHaTorah. The AI identifies every verb, root, binyan, PGN, and pronominal suffix.</div>
+  <textarea id="paste-input" placeholder="הדביק כאן טקסט עברי… Paste Hebrew text here…"></textarea>
+  <div class="parse-controls">
+    <input type="text" id="parse-book" class="parse-book-input" placeholder="Book (e.g. בר)" style="direction:rtl;width:140px"/>
+    <input type="text" id="parse-chapter" class="parse-book-input" placeholder="Chapter (e.g. א)" style="direction:rtl;width:110px"/>
+    <button class="parse-btn" id="parse-btn" onclick="parseText()">▶ Parse</button>
+    <span class="parse-status" id="parse-status"></span>
+  </div>
+  <div class="progress-bar" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  <div id="parse-log" style="margin-top:.6rem;font-size:11px;color:var(--ink-mid);font-family:monospace;max-height:200px;overflow-y:auto;background:var(--cream);padding:.75rem;border-radius:6px;display:none;white-space:pre-wrap"></div>
+</div>
+<div class="main-content" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start">
+  <div style="background:var(--white);border-radius:10px;border:1px solid var(--border-strong);padding:1.25rem">
+    <h3 style="font-family:'Frank Ruhl Libre',serif;color:var(--navy);margin-bottom:.75rem;font-size:15px">📖 How to add text</h3>
+    <ol style="font-size:12px;color:var(--ink-mid);line-height:2.1;padding-left:1.2rem">
+      <li>Go to <strong>AlHaTorah.org</strong> or <strong>Sefaria.org</strong></li>
+      <li>Open any chapter of Tanakh</li>
+      <li>Copy the Hebrew text</li>
+      <li>Paste into the box above</li>
+      <li>Enter the book and chapter</li>
+      <li>Click <strong>Parse Verbs</strong></li>
+    </ol>
+    <p style="font-size:11px;color:var(--ink-light);margin-top:.75rem;font-style:italic">The AI identifies roots, binyanim, tenses, PGN, and pronominal suffixes. Results merge automatically.</p>
+  </div>
+  <div style="background:var(--white);border-radius:10px;border:1px solid var(--border-strong);padding:1.25rem">
+    <h3 style="font-family:'Frank Ruhl Libre',serif;color:var(--navy);margin-bottom:.75rem;font-size:15px">💾 Database management</h3>
+    <div style="margin-bottom:1rem">
+      <div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:.35rem">Auto-save status</div>
+      <div id="storage-status" style="font-size:11px;color:var(--ink-mid);background:var(--cream);padding:6px 10px;border-radius:6px;font-style:italic">Checking…</div>
+    </div>
+    <div style="margin-bottom:1rem">
+      <div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:.35rem">Import backup CSV</div>
+      <label style="display:inline-block;background:var(--navy);color:var(--white);border-radius:6px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:'Crimson Pro',serif">
+        ↑ Import CSV<input type="file" id="import-file" accept=".csv" onchange="importCSV(this)" style="display:none"/>
+      </label>
+      <span id="import-status" style="font-size:11px;color:var(--ink-mid);margin-left:8px;font-style:italic"></span>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:.35rem">Reset database</div>
+      <button onclick="resetDB()" style="background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:6px;padding:5px 14px;font-size:12px;cursor:pointer;font-family:'Crimson Pro',serif">✕ Reset to seed data</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PRONOUNS TAB -->
+<div id="tab-pronouns" style="display:none">
+
+<!-- ── concordance controls ── -->
+<div class="controls" style="flex-wrap:wrap;gap:5px">
+  <div class="search-wrap">
+    <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#1a1814" stroke-width="1.2"/><line x1="9.5" y1="9.5" x2="13" y2="13" stroke="#1a1814" stroke-width="1.2" stroke-linecap="round"/></svg>
+    <input type="text" id="sfx-search" placeholder="word, root, gloss…" oninput="renderSuffixConcordance()"/>
+  </div>
+  <span class="ctrl-label">Type:</span>
+  <select id="sfx-type" onchange="renderSuffixConcordance()">
+    <option value="all">All types</option>
+    <option value="obj">Object (on verb)</option>
+    <option value="poss">Possessive (on noun)</option>
+    <option value="prep">Prepositional</option>
+    <option value="construct">Construct state</option>
+    <option value="other">Other</option>
+  </select>
+  <span class="ctrl-label">Person:</span>
+  <select id="sfx-person" onchange="renderSuffixConcordance()">
+    <option value="">All</option>
+    <option value="1">1st</option>
+    <option value="2">2nd</option>
+    <option value="3">3rd</option>
+  </select>
+  <span class="ctrl-label">Gender:</span>
+  <select id="sfx-gender" onchange="renderSuffixConcordance()">
+    <option value="">All</option>
+    <option value="m">Masc.</option>
+    <option value="f">Fem.</option>
+    <option value="c">Common</option>
+  </select>
+  <span class="ctrl-label">Number:</span>
+  <select id="sfx-number" onchange="renderSuffixConcordance()">
+    <option value="">All</option>
+    <option value="s">Sg.</option>
+    <option value="p">Pl.</option>
+  </select>
+  <div class="ctrl-divider"></div>
+  <span id="sfx-count-note" style="font-size:11px;color:var(--ink-light);font-style:italic"></span>
+  <div class="export-btn" style="margin-left:auto">
+    <button class="exp-btn" onclick="exportSfxCSV()">CSV ↓</button>
+  </div>
+</div>
+
+<!-- ── concordance table ── -->
+<div class="main-content" style="padding-bottom:0">
+  <div class="table-card" style="margin-bottom:1.5rem">
+    <table id="sfx-conc-table">
+      <thead><tr>
+        <th class="sortable" data-sfxcol="ref"    onclick="sfxSortClick('ref')"     style="cursor:pointer">Ref <span class="sort-arrow" id="sfxsa-ref">↕</span></th>
+        <th class="th-heb"                                                                                   >צורה</th>
+        <th class="sortable th-heb" data-sfxcol="base"   onclick="sfxSortClick('base')"    style="cursor:pointer">בסיס <span class="sort-arrow" id="sfxsa-base">↕</span></th>
+        <th class="sortable"        data-sfxcol="wtype"  onclick="sfxSortClick('wtype')"   style="cursor:pointer">Word type <span class="sort-arrow" id="sfxsa-wtype">↕</span></th>
+        <th class="sortable"        data-sfxcol="sfxtype"onclick="sfxSortClick('sfxtype')" style="cursor:pointer">Sfx type <span class="sort-arrow" id="sfxsa-sfxtype">↕</span></th>
+        <th class="sortable"        data-sfxcol="sfxpgn" onclick="sfxSortClick('sfxpgn')"  style="cursor:pointer">Sfx PGN <span class="sort-arrow" id="sfxsa-sfxpgn">↕</span></th>
+        <th class="th-heb">סוּפִיקְס</th>
+        <th>Gloss</th>
+      </tr></thead>
+      <tbody id="sfx-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── paradigm reference (collapsible) ── -->
+<div class="main-content" style="padding-top:0">
+  <button class="paradigm-ref-toggle" onclick="toggleSfxParadigm(this)">▶ Paradigm Reference Tables</button>
+  <div id="sfx-paradigm-section" style="display:none;margin-top:.75rem">
+
+    <div class="sfx-paradigm">
+      <div class="sfx-paradigm-title">Object Suffixes — סוּפִיקְסֵי מוּשָׂא (on verbs)</div>
+      <p style="font-size:12px;color:var(--ink-mid);margin-bottom:.75rem;font-style:italic">Direct-object suffixes. Shown on שָׁמַר (Qatal 3ms) and יִשְׁמֹר (Yiqtol 3ms).</p>
+      <div class="sfx-paradigm-grid">
+        <div class="sfx-pcard">
+          <div class="sfx-pcard-title"><span>Qal Qatal 3ms</span><span class="heb">שָׁמַר + sfx</span></div>
+          <table class="pron-table"><thead><tr><th>Person</th><th>PGN</th><th class="th-heb">Suffix</th><th class="th-heb">Full form</th><th>Meaning</th></tr></thead>
+          <tbody id="obj-avar-body"></tbody></table>
+        </div>
+        <div class="sfx-pcard">
+          <div class="sfx-pcard-title"><span>Qal Yiqtol 3ms</span><span class="heb">יִשְׁמֹר + sfx</span></div>
+          <table class="pron-table"><thead><tr><th>Person</th><th>PGN</th><th class="th-heb">Suffix</th><th class="th-heb">Full form</th><th>Meaning</th></tr></thead>
+          <tbody id="obj-atid-body"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sfx-paradigm" style="margin-top:1rem">
+      <div class="sfx-paradigm-title">Possessive Suffixes — סוּפִיקְסֵי שַׁיָּכוּת (on nouns)</div>
+      <p style="font-size:12px;color:var(--ink-mid);margin-bottom:.75rem;font-style:italic">Possessive suffixes. Shown on סוּס (m.) and תּוֹרָה (f.) in singular and plural.</p>
+      <div class="sfx-paradigm-grid">
+        <div class="sfx-pcard">
+          <div class="sfx-pcard-title"><span>Masc. noun sg / pl</span><span class="heb">סוּס / סוּסִים</span></div>
+          <table class="pron-table"><thead><tr><th>Person</th><th>PGN</th><th class="th-heb">Suffix</th><th class="th-heb">Sg.</th><th class="th-heb">Pl.</th><th>Meaning</th></tr></thead>
+          <tbody id="poss-ms-body"></tbody></table>
+        </div>
+        <div class="sfx-pcard">
+          <div class="sfx-pcard-title"><span>Fem. noun sg / pl</span><span class="heb">תּוֹרָה / תּוֹרוֹת</span></div>
+          <table class="pron-table"><thead><tr><th>Person</th><th>PGN</th><th class="th-heb">Suffix</th><th class="th-heb">Sg.</th><th class="th-heb">Pl.</th><th>Meaning</th></tr></thead>
+          <tbody id="poss-fs-body"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sfx-paradigm" style="margin-top:1rem">
+      <div class="sfx-paradigm-title">Prepositional Suffixes — common prepositions (reference)</div>
+      <p style="font-size:12px;color:var(--ink-mid);margin-bottom:.75rem;font-style:italic">Common prepositions with pronominal suffixes (לְ, מִן, אֶל, עִם, עַל, בְּ).</p>
+      <div class="sfx-paradigm-grid">
+        <div class="sfx-pcard">
+          <div class="sfx-pcard-title"><span>לְ (to/for)</span><span class="heb">לְ + sfx</span></div>
+          <table class="pron-table"><thead><tr><th>PGN</th><th class="th-heb">Form</th><th>Meaning</th></tr></thead>
+          <tbody id="prep-le-body"></tbody></table>
+        </div>
+        <div class="sfx-pcard">
+          <div class="sfx-pcard-title"><span>מִן (from)</span><span class="heb">מִן + sfx</span></div>
+          <table class="pron-table"><thead><tr><th>PGN</th><th class="th-heb">Form</th><th>Meaning</th></tr></thead>
+          <tbody id="prep-min-body"></tbody></table>
+        </div>
+        <div class="sfx-pcard">
+          <div class="sfx-pcard-title"><span>אֶל (to/toward)</span><span class="heb">אֶל + sfx</span></div>
+          <table class="pron-table"><thead><tr><th>PGN</th><th class="th-heb">Form</th><th>Meaning</th></tr></thead>
+          <tbody id="prep-el-body"></tbody></table>
+        </div>
+        <div class="sfx-pcard">
+          <div class="sfx-pcard-title"><span>עַל (on/about)</span><span class="heb">עַל + sfx</span></div>
+          <table class="pron-table"><thead><tr><th>PGN</th><th class="th-heb">Form</th><th>Meaning</th></tr></thead>
+          <tbody id="prep-al-body"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end sfx-paradigm-section -->
+
+  <p class="footer-note" style="margin-top:.5rem">Suffixed words are found automatically when you parse chapters. Includes verbs with object suffixes (וְכִבְשֻׁהָ), nouns with possessive suffixes (בֵּיתוֹ), and prepositions with suffixes (אֵלָיו). Note: construct-state forms like פְּנֵי ("face of") are grammatically distinct from possessive suffixes — they take a following genitive noun rather than standing alone. The AI prompt now explicitly excludes these, but occasional false positives may still appear.</p>
+</div>
+</div><!-- end suffix tab -->
+
+<!-- STATS TAB -->
+<div id="tab-stats" style="display:none">
+<div class="main-content">
+  <div class="stats-grid" id="stats-summary-cards" style="margin-bottom:1rem"></div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-card-title">Tense Distribution</div><div id="chart-tense"></div></div>
+    <div class="stat-card"><div class="stat-card-title">Binyan Distribution</div><div id="chart-binyan"></div></div>
+    <div class="stat-card"><div class="stat-card-title">Top PGN Forms</div><div id="chart-pgn"></div></div>
+    <div class="stat-card"><div class="stat-card-title">Top 20 Roots by Frequency</div><div id="chart-roots"></div></div>
+  </div>
+  <div class="stat-card" style="margin-top:0"><div class="stat-card-title">Books in Database</div><div id="chart-books"></div></div>
+</div>
+</div>
+
+<script>
+// SEED DATA — Bereishit 1
+// [ref, word, root, tense, binyan, pgn, vav, english, sfx_pgn?, sfx_form?]
+let VERBS=[
+["בר א:א","בָּרָא","ברא","avar","Qal","3ms",false,"he created"],
+["בר א:ב","הָיְתָה","היה","avar","Qal","3fs",false,"it was"],
+["בר א:ב","מְרַחֶפֶת","רחף","hove","Piel","fs",false,"hovering"],
+["בר א:ג","וַיֹּאמֶר","אמר","atid","Qal","3ms",true,"and he said"],
+["בר א:ג","יְהִי","היה","atid","Qal","3ms",false,"let there be (jussive)"],
+["בר א:ג","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+["בר א:ד","וַיַּרְא","ראה","atid","Qal","3ms",true,"and he saw"],
+["בר א:ד","וַיַּבְדֵּל","בדל","atid","Hiphil","3ms",true,"and he separated"],
+["בר א:ה","וַיִּקְרָא","קרא","atid","Qal","3ms",true,"and he called"],
+["בר א:ה","קָרָא","קרא","avar","Qal","3ms",false,"he called"],
+["בר א:ה","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+["בר א:ה","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+["בר א:ו","וַיֹּאמֶר","אמר","atid","Qal","3ms",true,"and he said"],
+["בר א:ו","יְהִי","היה","atid","Qal","3ms",false,"let there be (jussive)"],
+["בר א:ו","וִיהִי","היה","atid","Qal","3ms",false,"and let it be (jussive)"],
+["בר א:ו","מַבְדִּיל","בדל","hove","Hiphil","ms",false,"separating"],
+["בר א:ז","וַיַּעַשׂ","עשה","atid","Qal","3ms",true,"and he made"],
+["בר א:ז","וַיַּבְדֵּל","בדל","atid","Hiphil","3ms",true,"and he separated"],
+["בר א:ז","וַיְהִי","היה","atid","Qal","3ms",true,"and it was"],
+["בר א:ח","וַיִּקְרָא","קרא","atid","Qal","3ms",true,"and he called"],
+["בר א:ח","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+["בר א:ח","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+["בר א:ט","וַיֹּאמֶר","אמר","atid","Qal","3ms",true,"and he said"],
+["בר א:ט","יִקָּווּ","קוה","atid","Niphal","3mp",false,"let be gathered"],
+["בר א:ט","וְתֵרָאֶה","ראה","atid","Niphal","3fs",false,"and let appear"],
+["בר א:ט","וַיְהִי","היה","atid","Qal","3ms",true,"and it was"],
+["בר א:י","וַיִּקְרָא","קרא","atid","Qal","3ms",true,"and he called"],
+["בר א:י","קָרָא","קרא","avar","Qal","3ms",false,"he called"],
+["בר א:י","וַיַּרְא","ראה","atid","Qal","3ms",true,"and he saw"],
+["בר א:יא","וַיֹּאמֶר","אמר","atid","Qal","3ms",true,"and he said"],
+["בר א:יא","תַּדְשֵׁא","דשא","atid","Hiphil","3fs",false,"let sprout"],
+["בר א:יא","מַזְרִיעַ","זרע","hove","Hiphil","ms",false,"seed-bearing"],
+["בר א:יא","עֹשֶׂה","עשה","hove","Qal","ms",false,"making"],
+["בר א:יא","וַיְהִי","היה","atid","Qal","3ms",true,"and it was"],
+["בר א:יב","וַתּוֹצֵא","יצא","atid","Hiphil","3fs",true,"and it brought forth"],
+["בר א:יב","מַזְרִיעַ","זרע","hove","Hiphil","ms",false,"seed-bearing"],
+["בר א:יב","עֹשֶׂה","עשה","hove","Qal","ms",false,"making"],
+["בר א:יב","וַיַּרְא","ראה","atid","Qal","3ms",true,"and he saw"],
+["בר א:יג","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+["בר א:יג","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+["בר א:יד","וַיֹּאמֶר","אמר","atid","Qal","3ms",true,"and he said"],
+["בר א:יד","יְהִי","היה","atid","Qal","3ms",false,"let there be"],
+["בר א:יד","לְהַבְדִּיל","בדל","inf","Hiphil","—",false,"to separate"],
+["בר א:יד","וְהָיוּ","היה","atid","Qal","3cp",false,"and they shall be"],
+["בר א:טו","וְהָיוּ","היה","atid","Qal","3cp",false,"and they shall be"],
+["בר א:טו","לְהָאִיר","אור","inf","Hiphil","—",false,"to give light"],
+["בר א:טו","וַיְהִי","היה","atid","Qal","3ms",true,"and it was"],
+["בר א:טז","וַיַּעַשׂ","עשה","atid","Qal","3ms",true,"and he made"],
+["בר א:יז","וַיִּתֵּן","נתן","atid","Qal","3ms",true,"and he placed"],
+["בר א:יז","לְהָאִיר","אור","inf","Hiphil","—",false,"to give light"],
+["בר א:יח","וְלִמְשֹׁל","משל","inf","Qal","—",false,"to rule"],
+["בר א:יח","וּלְהַבְדִּיל","בדל","inf","Hiphil","—",false,"to separate"],
+["בר א:יח","וַיַּרְא","ראה","atid","Qal","3ms",true,"and he saw"],
+["בר א:יט","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+["בר א:יט","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+["בר א:כ","וַיֹּאמֶר","אמר","atid","Qal","3ms",true,"and he said"],
+["בר א:כ","יִשְׁרְצוּ","שרץ","atid","Qal","3mp",false,"let swarm"],
+["בר א:כ","יְעוֹפֵף","עוף","atid","Piel","3ms",false,"let fly"],
+["בר א:כא","וַיִּבְרָא","ברא","atid","Qal","3ms",true,"and he created"],
+["בר א:כא","הָרֹמֶשֶׂת","רמש","hove","Qal","fs",false,"creeping"],
+["בר א:כא","שָׁרְצוּ","שרץ","avar","Qal","3cp",false,"they swarmed"],
+["בר א:כא","וַיַּרְא","ראה","atid","Qal","3ms",true,"and he saw"],
+["בר א:כב","וַיְבָרֶךְ","ברך","atid","Piel","3ms",true,"and he blessed"],
+["בר א:כב","לֵאמֹר","אמר","inf","Qal","—",false,"saying"],
+["בר א:כב","פְּרוּ","פרה","tzivui","Qal","2mp",false,"be fruitful!"],
+["בר א:כב","וּרְבוּ","רבה","tzivui","Qal","2mp",false,"multiply!"],
+["בר א:כב","וּמִלְאוּ","מלא","tzivui","Qal","2mp",false,"fill!"],
+["בר א:כב","יִרֶב","רבה","atid","Qal","3ms",false,"let multiply"],
+["בר א:כג","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+["בר א:כג","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+["בר א:כד","וַיֹּאמֶר","אמר","atid","Qal","3ms",true,"and he said"],
+["בר א:כד","תּוֹצֵא","יצא","atid","Hiphil","3fs",false,"let bring forth"],
+["בר א:כד","וַיְהִי","היה","atid","Qal","3ms",true,"and it was"],
+["בר א:כה","וַיַּעַשׂ","עשה","atid","Qal","3ms",true,"and he made"],
+["בר א:כה","וַיַּרְא","ראה","atid","Qal","3ms",true,"and he saw"],
+["בר א:כו","וַיֹּאמֶר","אמר","atid","Qal","3ms",true,"and he said"],
+["בר א:כו","נַעֲשֶׂה","עשה","atid","Qal","1cp",false,"let us make (cohort.)"],
+["בר א:כו","וְיִרְדּוּ","רדה","atid","Qal","3mp",false,"and let them rule"],
+["בר א:כו","הָרֹמֵשׂ","רמש","hove","Qal","ms",false,"creeping"],
+["בר א:כז","וַיִּבְרָא","ברא","atid","Qal","3ms",true,"and he created"],
+["בר א:כז","בָּרָא","ברא","avar","Qal","3ms",false,"he created"],
+["בר א:כז","בָּרָא","ברא","avar","Qal","3ms",false,"he created"],
+["בר א:כח","וַיְבָרֶךְ","ברך","atid","Piel","3ms",true,"and he blessed"],
+["בר א:כח","וַיֹּאמֶר","אמר","atid","Qal","3ms",true,"and he said"],
+["בר א:כח","פְּרוּ","פרה","tzivui","Qal","2mp",false,"be fruitful!"],
+["בר א:כח","וּרְבוּ","רבה","tzivui","Qal","2mp",false,"multiply!"],
+["בר א:כח","וּמִלְאוּ","מלא","tzivui","Qal","2mp",false,"fill!"],
+["בר א:כח","וְכִבְשֻׁהָ","כבש","tzivui","Qal","2mp",false,"subdue it! (+sfx)","3fs","הָ"],
+["בר א:כח","וּרְדוּ","רדה","tzivui","Qal","2mp",false,"rule!"],
+["בר א:כח","הָרֹמֶשֶׂת","רמש","hove","Qal","fs",false,"creeping"],
+["בר א:כט","וַיֹּאמֶר","אמר","atid","Qal","3ms",true,"and he said"],
+["בר א:כט","נָתַתִּי","נתן","avar","Qal","1cs",false,"I have given"],
+["בר א:כט","זֹרֵעַ","זרע","hove","Qal","ms",false,"sowing"],
+["בר א:כט","זֹרֵעַ","זרע","hove","Qal","ms",false,"sowing"],
+["בר א:כט","יִהְיֶה","היה","atid","Qal","3ms",false,"it shall be"],
+["בר א:ל","רוֹמֵשׂ","רמש","hove","Qal","ms",false,"creeping"],
+["בר א:ל","וַיְהִי","היה","atid","Qal","3ms",true,"and it was"],
+["בר א:לא","וַיַּרְא","ראה","atid","Qal","3ms",true,"and he saw"],
+["בר א:לא","עָשָׂה","עשה","avar","Qal","3ms",false,"he had made"],
+["בר א:לא","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+["בר א:לא","וַיְהִי","היה","atid","Qal","3ms",true,"and there was"],
+];
+// SUFFIX CONCORDANCE — [ref, word, base, word_type, sfx_pgn, sfx_form, sfx_type, gloss]
+// word_type: "verb"|"noun"|"prep"|"other"
+// sfx_type: "obj"|"poss"|"prep"
+// Seeded from the one suffixed verb in Bereishit 1:
+let SUFFIXED=[
+  ["בר א:כח","וְכִבְשֻׁהָ","כבש","verb","3fs","הָ","obj","subdue it (her)"],
+];
+
+
+const OBJ_SFX=[
+  ["1st sg.","1cs","נִי–","שְׁמָרַנִי","יִשְׁמְרֵנִי","…me"],
+  ["2nd m.sg.","2ms","ךָ–","שְׁמָרְךָ","יִשְׁמָרְךָ","…you (ms)"],
+  ["2nd f.sg.","2fs","ךְ–","שְׁמָרֵךְ","יִשְׁמְרֵךְ","…you (fs)"],
+  ["3rd m.sg.","3ms","הוּ/וֹ–","שְׁמָרוֹ","יִשְׁמְרֶנּוּ","…him"],
+  ["3rd f.sg.","3fs","הָ–","שְׁמָרָהּ","יִשְׁמְרֶנָּה","…her"],
+  ["1st pl.","1cp","נוּ–","שְׁמָרָנוּ","יִשְׁמְרֵנוּ","…us"],
+  ["2nd m.pl.","2mp","כֶם–","שְׁמָרְכֶם","יִשְׁמְרְכֶם","…you (mp)"],
+  ["2nd f.pl.","2fp","כֶן–","שְׁמָרְכֶן","יִשְׁמְרְכֶן","…you (fp)"],
+  ["3rd m.pl.","3mp","ם/הֶם–","שְׁמָרָם","יִשְׁמְרֵם","…them (m)"],
+  ["3rd f.pl.","3fp","ן/הֶן–","שְׁמָרָן","יִשְׁמְרֵן","…them (f)"],
+];
+const POSS_SFX=[
+  ["1st sg.","1cs","י–","סוּסִי","סוּסַי","תּוֹרָתִי","תּוֹרֹתַי","","my"],
+  ["2nd m.sg.","2ms","ךָ–","סוּסְךָ","סוּסֶיךָ","תּוֹרָתְךָ","תּוֹרֹתֶיךָ","","your (ms)"],
+  ["2nd f.sg.","2fs","ךְ–","סוּסֵךְ","סוּסַיִךְ","תּוֹרָתֵךְ","תּוֹרֹתַיִךְ","","your (fs)"],
+  ["3rd m.sg.","3ms","וֹ–","סוּסוֹ","סוּסָיו","תּוֹרָתוֹ","תּוֹרֹתָיו","","his"],
+  ["3rd f.sg.","3fs","הָ–","סוּסָהּ","סוּסֶיהָ","תּוֹרָתָהּ","תּוֹרֹתֶיהָ","","her"],
+  ["1st pl.","1cp","נוּ–","סוּסֵנוּ","סוּסֵינוּ","תּוֹרָתֵנוּ","תּוֹרֹתֵינוּ","","our"],
+  ["2nd m.pl.","2mp","כֶם–","סוּסְכֶם","סוּסֵיכֶם","תּוֹרַתְכֶם","תּוֹרֹתֵיכֶם","","your (mp)"],
+  ["2nd f.pl.","2fp","כֶן–","סוּסְכֶן","סוּסֵיכֶן","תּוֹרַתְכֶן","תּוֹרֹתֵיכֶן","","your (fp)"],
+  ["3rd m.pl.","3mp","הֶם–","סוּסָם","סוּסֵיהֶם","תּוֹרָתָם","תּוֹרֹתֵיהֶם","","their (m)"],
+  ["3rd f.pl.","3fp","הֶן–","סוּסָן","סוּסֵיהֶן","תּוֹרָתָן","תּוֹרֹתֵיהֶן","","their (f)"],
+];
+const OBJ_SFX_MAP={};
+OBJ_SFX.forEach(r=>{OBJ_SFX_MAP[r[1]]={suffix:r[2],avar:r[3],atid:r[4],meaning:r[5]};});
+
+const TENSE_LABEL={avar:"עָבַר Past",hove:"הוֹוֶה Present",atid:"עָתִיד Future",tzivui:"צִיווּי Imper.",inf:"אינפ׳ Inf.",inf_abs:"אינפ׳ מוחלט"};
+const BINYAN_HEB={Qal:"קַל",Niphal:"נִפְעַל",Piel:"פִּעֵל",Pual:"פֻּעַל",Hiphil:"הִפְעִיל",Hophal:"הֻפְעַל",Hitpael:"הִתְפַּעֵל"};
+const TENSE_STYLE={avar:"background:var(--tense-avar-bg);color:var(--tense-avar-fg)",hove:"background:var(--tense-hove-bg);color:var(--tense-hove-fg)",atid:"background:var(--tense-atid-bg);color:var(--tense-atid-fg)",tzivui:"background:var(--tense-tzivui-bg);color:var(--tense-tzivui-fg)",inf:"background:var(--tense-inf-bg);color:var(--tense-inf-fg)",inf_abs:"background:var(--tense-inf-bg);color:var(--tense-inf-fg)"};
+const BINYAN_STYLE={Qal:"background:var(--binyan-qal-bg);color:var(--binyan-qal-fg)",Niphal:"background:var(--binyan-niphal-bg);color:var(--binyan-niphal-fg)",Piel:"background:var(--binyan-piel-bg);color:var(--binyan-piel-fg)",Pual:"background:var(--binyan-piel-bg);color:var(--binyan-piel-fg)",Hiphil:"background:var(--binyan-hiphil-bg);color:var(--binyan-hiphil-fg)",Hophal:"background:var(--binyan-hiphil-bg);color:var(--binyan-hiphil-fg)",Hitpael:"background:var(--binyan-hitpael-bg);color:var(--binyan-hitpael-fg)"};
+
+function parsePGN(pgn){
+  if(!pgn||pgn==="—")return{person:"",gender:"",number:""};
+  const m=pgn.match(/^(\d)?([mfcp])?([sp])?$/);
+  if(!m)return{person:"",gender:"",number:""};
+  return{person:m[1]||"",gender:m[2]||"",number:m[3]||""};
+}
+
+// ══════════════════════════════════════════════════
+// VERB TABLE — COLUMN SORTING
+// ══════════════════════════════════════════════════
+let verbSortCol='ref', verbSortDir='asc';
+const VERB_COL_IDX={ref:0,word:1,root:2,tense:3,binyan:4,pgn:5,vav:6,en:7};
+
+function verbSort(col){
+  if(verbSortCol===col){ verbSortDir=verbSortDir==='asc'?'desc':'asc'; }
+  else { verbSortCol=col; verbSortDir='asc'; }
+  updateSortArrows('sa-verb-', col, verbSortDir);
+  render();
+}
+
+function sortRows(rows){
+  const col=verbSortCol, dir=verbSortDir;
+  return [...rows].sort((a,b)=>{
+    let av, bv;
+    if(col==='ref'){ av=VERBS.indexOf(a); bv=VERBS.indexOf(b); }
+    else if(col==='vav'){ av=a[6]?1:0; bv=b[6]?1:0; }
+    else { const ci=VERB_COL_IDX[col]??0; av=(a[ci]||'').toString().toLowerCase(); bv=(b[ci]||'').toString().toLowerCase(); }
+    if(av<bv)return dir==='asc'?-1:1;
+    if(av>bv)return dir==='asc'?1:-1;
+    return 0;
+  });
+}
+
+function updateSortArrows(prefix, activeCol, dir){
+  document.querySelectorAll('[id^="'+prefix+'"]').forEach(el=>{
+    el.className='sort-arrow';
+  });
+  const el=document.getElementById(prefix+activeCol);
+  if(el) el.className='sort-arrow '+(dir==='asc'?'asc':'desc');
+}
+
+// ══════════════════════════════════════════════════
+// SUFFIX CONCORDANCE — unified (all word types)
+// ══════════════════════════════════════════════════
+let sfxSortState={col:'ref',dir:1};
+
+const SFX_TYPE_LABEL={obj:'Object',poss:'Possessive',prep:'Prepositional',construct:'Construct',other:'Other'};
+const SFX_TYPE_STYLE={obj:'sfx-type-obj',poss:'sfx-type-poss',prep:'sfx-type-prep',construct:'sfx-type-construct',other:'sfx-type-other'};
+
+function sfxSortClick(col){
+  if(sfxSortState.col===col) sfxSortState.dir*=-1;
+  else{sfxSortState.col=col;sfxSortState.dir=1;}
+  document.querySelectorAll('#sfx-conc-table th.sortable').forEach(th=>{
+    th.classList.remove('asc','desc');
+    if(th.getAttribute('data-sfxcol')===col)
+      th.classList.add(sfxSortState.dir===1?'asc':'desc');
+  });
+  renderSuffixConcordance();
+}
+
+function getSfxFiltered(){
+  const q=(document.getElementById('sfx-search')||{value:''}).value.trim().toLowerCase();
+  const fType=(document.getElementById('sfx-type')||{value:'all'}).value;
+  const fPer=(document.getElementById('sfx-person')||{value:''}).value;
+  const fGen=(document.getElementById('sfx-gender')||{value:''}).value;
+  const fNum=(document.getElementById('sfx-number')||{value:''}).value;
+
+  return SUFFIXED.filter(s=>{
+    // s = [ref, word, base, wtype, sfx_pgn, sfx_form, sfx_type, gloss]
+    if(fType!=='all' && s[6]!==fType) return false;
+    const pgn=s[4]||'';
+    const pm=pgn.match(/^(\d)([mfcp])?([sp])?$/);
+    const sp=pm?pm[1]:'', sg=pm?pm[2]:'', sn=pm?pm[3]:'';
+    if(fPer && sp!==fPer) return false;
+    if(fGen && sg!==fGen) return false;
+    if(fNum && sn!==fNum) return false;
+    if(q){
+      const hay=[s[0],s[1],s[2],s[4],s[5],s[6],s[7]].join(' ').toLowerCase();
+      if(!hay.includes(q) && !fuzzyMatch(hay,q)) return false;
+    }
+    return true;
+  });
+}
+
+function renderSuffixConcordance(){
+  const tbody=document.getElementById('sfx-tbody');
+  if(!tbody) return;
+
+  let rows=getSfxFiltered();
+  const q=(document.getElementById('sfx-search')||{value:''}).value.trim();
+  const ql=q.toLowerCase();
+
+  // Sort
+  const col=sfxSortState.col, dir=sfxSortState.dir;
+  const COL_IDX={ref:0,word:1,base:2,wtype:3,sfxpgn:4,sfxform:5,sfxtype:6,gloss:7};
+  rows=[...rows].sort((a,b)=>{
+    let av,bv;
+    if(col==='ref'){av=SUFFIXED.indexOf(a);bv=SUFFIXED.indexOf(b);}
+    else{const ci=COL_IDX[col]??0;av=(a[ci]||'').toString().toLowerCase();bv=(b[ci]||'').toString().toLowerCase();}
+    if(av<bv)return dir*-1; if(av>bv)return dir*1; return 0;
+  });
+
+  const note=document.getElementById('sfx-count-note');
+  if(note) note.textContent=rows.length+' result'+(rows.length===1?'':'s')+' of '+SUFFIXED.length+' total';
+
+  if(!rows.length){
+    tbody.innerHTML=`<tr><td colspan="8" class="sfx-empty">${
+      SUFFIXED.length<=SFX_SEED
+      ? 'No suffix data yet — parse chapters in "Add Text" to populate this concordance. The AI detects verbs with object suffixes (אֹתוֹ), nouns with possessive suffixes (בֵּיתוֹ), and prepositions with suffixes (אֵלָיו).'
+      : 'No matches — try adjusting the filters.'
+    }</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML=rows.map(s=>{
+    const[ref,word,base,wtype,sfxPgn,sfxForm,sfxType,gloss]=s;
+    const tpill=`<span class="sfx-type-pill ${SFX_TYPE_STYLE[sfxType]||'sfx-type-other'}">${SFX_TYPE_LABEL[sfxType]||sfxType}</span>`;
+    const wtDisp=`<span class="sfx-word-type">${wtype||'—'}</span>`;
+    const sfxDisp=sfxForm?`<span class="sfx-form-cell">${hlText(sfxForm,ql)}</span>`:'—';
+    return`<tr>
+      <td class="ref-cell">${hlText(ref,ql)}</td>
+      <td class="word-cell">${hlText(word,ql)}</td>
+      <td class="root-cell">${hlText(base,ql)}</td>
+      <td>${wtDisp}</td>
+      <td>${tpill}</td>
+      <td class="pgn-cell">${hlText(sfxPgn,ql)}</td>
+      <td style="text-align:right">${sfxDisp}</td>
+      <td class="en-cell">${hlText(gloss,ql)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// Keep legacy alias
+function renderSuffixes(){ renderSuffixConcordance(); }
+function renderSuffixTab(){ renderSuffixConcordance(); }
+
+function toggleSfxParadigm(btn){
+  const sec=document.getElementById('sfx-paradigm-section');
+  const open=sec.style.display==='none';
+  sec.style.display=open?'block':'none';
+  btn.textContent=(open?'▼':'▶')+' Paradigm Reference Tables';
+}
+
+
+function exportSfxCSV(){
+  const rows=getSfxFiltered();
+  const hdrs=['Ref','Word','Base','Word Type','Suffix PGN','Suffix Form','Suffix Type','Gloss'];
+  const lines=rows.map(s=>s.map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(','));
+  const blob=new Blob(['\uFEFF'+[hdrs.join(','),...lines].join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='suffix_concordance.csv';a.click();
+}
+
+const SFX_KEY='tanakh_suffix_db_v1';
+const SFX_SEED=1;
+
+function saveSfxDB(){
+  try{localStorage.setItem(SFX_KEY,JSON.stringify(SUFFIXED.slice(SFX_SEED)));}catch(e){}
+}
+function loadSfxDB(){
+  try{
+    const raw=localStorage.getItem(SFX_KEY);
+    if(!raw)return 0;
+    const extra=JSON.parse(raw);
+    if(!Array.isArray(extra)||!extra.length)return 0;
+    SUFFIXED.push(...extra);return extra.length;
+  }catch(e){return 0;}
+}
+
+function fuzzyMatch(str,query){
+  if(!query)return true;
+  const s=str.toLowerCase(),q=query.toLowerCase();
+  if(s.includes(q))return true;
+  // Hebrew: direct substring check (fuzzy not useful for Hebrew chars)
+  // Also check transliteration-ish
+  let qi=0;
+  for(let si=0;si<s.length&&qi<q.length;si++)if(s[si]===q[qi])qi++;
+  return qi===q.length;
+}
+
+function hlMatch(str,query){
+  if(!query||!str)return str;
+  const idx=str.toLowerCase().indexOf(query.toLowerCase());
+  if(idx>=0)return str.slice(0,idx)+'<mark class="hl">'+str.slice(idx,idx+query.length)+'</mark>'+str.slice(idx+query.length);
+  return str;
+}
+// Alias used throughout
+const hlText=hlMatch;
+
+// ── Tanakh structure ──────────────────────────────
+const TANAKH_DIVISIONS={
+  torah:  {label:'תּוֹרָה Torah',    books:['בר','שמ','ויק','במד','דב']},
+  neviim: {label:'נְבִיאִים Nevi\'im', books:['יה','שו','שמא','שמב','מלא','מלב','יש','יר','יח',
+            'הו','יו','עמ','עב','יונ','מי','נח','חב','צפ','חג','זכ','מל']},
+  ketuvim:{label:'כְּתוּבִים Ketuvim', books:['תה','מש','אי','שה','רו','אי','קה','אס','דנ','עז','נח','דה1','דה2']},
+};
+const BOOK_NAMES={
+  'בר':'בְּרֵאשִׁית','שמ':'שְׁמוֹת','ויק':'וַיִּקְרָא','במד':'בְּמִדְבַּר','דב':'דְּבָרִים',
+  'יה':'יְהוֹשֻׁעַ','שו':'שׁוֹפְטִים','שמא':'שְׁמוּאֵל א','שמב':'שְׁמוּאֵל ב',
+  'מלא':'מְלָכִים א','מלב':'מְלָכִים ב','יש':'יְשַׁעְיָהוּ','יר':'יִרְמְיָהוּ','יח':'יְחֶזְקֵאל',
+  'הו':'הוֹשֵׁעַ','יו':'יוֹאֵל','עמ':'עָמוֹס','עב':'עֹבַדְיָה','יונ':'יוֹנָה','מי':'מִיכָה',
+  'נח':'נַחוּם','חב':'חֲבַקּוּק','צפ':'צְפַנְיָה','חג':'חַגַּי','זכ':'זְכַרְיָה','מל':'מַלְאָכִי',
+  'תה':'תְּהִלִּים','מש':'מִשְׁלֵי','אי':'אִיּוֹב','שה':'שִׁיר הַשִּׁירִים','רו':'רוּת',
+  'קה':'קֹהֶלֶת','אס':'אֶסְתֵּר','דנ':'דָּנִיֵּאל','עז':'עֶזְרָא','נח':'נְחֶמְיָה',
+  'דה1':'דִּבְרֵי הַיָּמִים א','דה2':'דִּבְרֵי הַיָּמִים ב',
+};
+
+// Parsha table — [name_heb, abbrev, from_chap, from_verse, to_chap, to_verse]
+// Book abbrevs match our ref system (בר = Bereishit, etc.)
+const PARSHIYOT=[
+  // Torah — Bereishit
+  {n:'בְּרֵאשִׁית',book:'בר',fc:1,fv:1,tc:6,tv:8},
+  {n:'נֹחַ',book:'בר',fc:6,fv:9,tc:11,tv:32},
+  {n:'לֶךְ־לְךָ',book:'בר',fc:12,fv:1,tc:17,tv:27},
+  {n:'וַיֵּרָא',book:'בר',fc:18,fv:1,tc:22,tv:24},
+  {n:'חַיֵּי שָׂרָה',book:'בר',fc:23,fv:1,tc:25,tv:18},
+  {n:'תּוֹלְדוֹת',book:'בר',fc:25,fv:19,tc:28,tv:9},
+  {n:'וַיֵּצֵא',book:'בר',fc:28,fv:10,tc:32,tv:3},
+  {n:'וַיִּשְׁלַח',book:'בר',fc:32,fv:4,tc:36,tv:43},
+  {n:'וַיֵּשֶׁב',book:'בר',fc:37,fv:1,tc:40,tv:23},
+  {n:'מִקֵּץ',book:'בר',fc:41,fv:1,tc:44,tv:17},
+  {n:'וַיִּגַּשׁ',book:'בר',fc:44,fv:18,tc:47,tv:27},
+  {n:'וַיְחִי',book:'בר',fc:47,fv:28,tc:50,tv:26},
+  // Torah — Shemot
+  {n:'שְׁמוֹת',book:'שמ',fc:1,fv:1,tc:6,tv:1},
+  {n:'וָאֵרָא',book:'שמ',fc:6,fv:2,tc:9,tv:35},
+  {n:'בֹּא',book:'שמ',fc:10,fv:1,tc:13,tv:16},
+  {n:'בְּשַׁלַּח',book:'שמ',fc:13,fv:17,tc:17,tv:16},
+  {n:'יִתְרוֹ',book:'שמ',fc:18,fv:1,tc:20,tv:23},
+  {n:'מִשְׁפָּטִים',book:'שמ',fc:21,fv:1,tc:24,tv:18},
+  {n:'תְּרוּמָה',book:'שמ',fc:25,fv:1,tc:27,tv:19},
+  {n:'תְּצַוֶּה',book:'שמ',fc:27,fv:20,tc:30,tv:10},
+  {n:'כִּי תִשָּׂא',book:'שמ',fc:30,fv:11,tc:34,tv:35},
+  {n:'וַיַּקְהֵל',book:'שמ',fc:35,fv:1,tc:38,tv:20},
+  {n:'פְקוּדֵי',book:'שמ',fc:38,fv:21,tc:40,tv:38},
+  // Torah — Vayikra
+  {n:'וַיִּקְרָא',book:'ויק',fc:1,fv:1,tc:5,tv:26},
+  {n:'צַו',book:'ויק',fc:6,fv:1,tc:8,tv:36},
+  {n:'שְׁמִינִי',book:'ויק',fc:9,fv:1,tc:11,tv:47},
+  {n:'תַּזְרִיעַ',book:'ויק',fc:12,fv:1,tc:13,tv:59},
+  {n:'מְצֹרָע',book:'ויק',fc:14,fv:1,tc:15,tv:33},
+  {n:'אַחֲרֵי מוֹת',book:'ויק',fc:16,fv:1,tc:18,tv:30},
+  {n:'קְדֹשִׁים',book:'ויק',fc:19,fv:1,tc:20,tv:27},
+  {n:'אֱמֹר',book:'ויק',fc:21,fv:1,tc:24,tv:23},
+  {n:'בְּהַר',book:'ויק',fc:25,fv:1,tc:26,tv:2},
+  {n:'בְּחֻקֹּתַי',book:'ויק',fc:26,fv:3,tc:27,tv:34},
+  // Torah — Bamidbar
+  {n:'בְּמִדְבַּר',book:'במד',fc:1,fv:1,tc:4,tv:20},
+  {n:'נָשֹׂא',book:'במד',fc:4,fv:21,tc:7,tv:89},
+  {n:'בְּהַעֲלֹתְךָ',book:'במד',fc:8,fv:1,tc:12,tv:16},
+  {n:'שְׁלַח',book:'במד',fc:13,fv:1,tc:15,tv:41},
+  {n:'קֹרַח',book:'במד',fc:16,fv:1,tc:18,tv:32},
+  {n:'חֻקַּת',book:'במד',fc:19,fv:1,tc:22,tv:1},
+  {n:'בָּלָק',book:'במד',fc:22,fv:2,tc:25,tv:9},
+  {n:'פִּינְחָס',book:'במד',fc:25,fv:10,tc:30,tv:1},
+  {n:'מַטּוֹת',book:'במד',fc:30,fv:2,tc:32,tv:42},
+  {n:'מַסְעֵי',book:'במד',fc:33,fv:1,tc:36,tv:13},
+  // Torah — Devarim
+  {n:'דְּבָרִים',book:'דב',fc:1,fv:1,tc:3,tv:22},
+  {n:'וָאֶתְחַנַּן',book:'דב',fc:3,fv:23,tc:7,tv:11},
+  {n:'עֵקֶב',book:'דב',fc:7,fv:12,tc:11,tv:25},
+  {n:'רְאֵה',book:'דב',fc:11,fv:26,tc:16,tv:17},
+  {n:'שׁוֹפְטִים',book:'דב',fc:16,fv:18,tc:21,tv:9},
+  {n:'כִּי תֵצֵא',book:'דב',fc:21,fv:10,tc:25,tv:19},
+  {n:'כִּי תָבוֹא',book:'דב',fc:26,fv:1,tc:29,tv:8},
+  {n:'נִצָּבִים',book:'דב',fc:29,fv:9,tc:30,tv:20},
+  {n:'וַיֵּלֶךְ',book:'דב',fc:31,fv:1,tc:31,tv:30},
+  {n:'הַאֲזִינוּ',book:'דב',fc:32,fv:1,tc:32,tv:52},
+  {n:'וְזֹאת הַבְּרָכָה',book:'דב',fc:33,fv:1,tc:34,tv:12},
+];
+
+// Build a fast lookup: given book+chap+verse → parsha name
+function getParsha(bookAbbrev, chap, verse){
+  const matches=PARSHIYOT.filter(p=>p.book===bookAbbrev);
+  for(const p of matches){
+    const afterStart=(chap>p.fc)||(chap===p.fc&&verse>=p.fv);
+    const beforeEnd=(chap<p.tc)||(chap===p.tc&&verse<=p.tv);
+    if(afterStart&&beforeEnd) return p.n;
+  }
+  return null;
+}
+
+// Parse a ref string like "בר א:ג" → {book:'בר', chap:1, verse:3}
+// Hebrew chapter/verse nums use HEB_NUMS array
+function parseRef(ref){
+  const parts=ref.trim().split(' ');
+  if(parts.length<2) return null;
+  const book=parts[0];
+  const cv=parts.slice(1).join(' '); // "א:ג" or "א:?"
+  const sep=cv.indexOf(':');
+  if(sep<0) return {book,chap:0,verse:0};
+  const chapStr=cv.slice(0,sep), verseStr=cv.slice(sep+1);
+  const chap=HEB_NUMS.indexOf(chapStr)+1||parseInt(chapStr)||0;
+  const verse=HEB_NUMS.indexOf(verseStr)+1||parseInt(verseStr)||0;
+  return{book,chap,verse};
+}
+
+function getDivision(bookAbbrev){
+  for(const[div,d] of Object.entries(TANAKH_DIVISIONS)){
+    if(d.books.includes(bookAbbrev)) return div;
+  }
+  return null;
+}
+
+function rebuildSelects(){
+  const roots=[...new Set(VERBS.map(v=>v[2]))].sort((a,b)=>a.localeCompare(b,'he'));
+  const rSel=document.getElementById('f-root'),cur=rSel.value;
+  rSel.innerHTML='<option value="">All roots</option>';
+  roots.forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;rSel.appendChild(o);});
+  rSel.value=cur;
+
+  // Sefer: preserve existing, rebuild from data
+  const books=[...new Set(VERBS.map(v=>v[0].split(' ')[0]))];
+  rebuildSeferSelect(books);
+
+  document.getElementById('db-counter-badge').textContent=VERBS.length+' verbs';
+  updateFooter();
+}
+
+function rebuildSeferSelect(books){
+  const sel=document.getElementById('f-sefer');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">All books</option>';
+  // Group by division
+  const divFilter=document.getElementById('f-division').value;
+  const orderedBooks=[];
+  for(const[div,d] of Object.entries(TANAKH_DIVISIONS)){
+    if(divFilter&&div!==divFilter) continue;
+    d.books.filter(b=>books.includes(b)).forEach(b=>orderedBooks.push([b,div]));
+  }
+  // Books not in our map
+  books.filter(b=>!orderedBooks.find(([x])=>x===b)).forEach(b=>orderedBooks.push([b,'']));
+  let lastDiv='';
+  orderedBooks.forEach(([b,div])=>{
+    if(div&&div!==lastDiv){
+      const og=document.createElement('optgroup');
+      og.label=TANAKH_DIVISIONS[div]?.label||div;
+      sel.appendChild(og);
+      lastDiv=div;
+    }
+    const o=document.createElement('option');
+    o.value=b;
+    o.textContent=(BOOK_NAMES[b]||b)+' ('+b+')';
+    sel.appendChild(o);
+  });
+  sel.value=cur;
+  rebuildPerekSelect();
+  rebuildParshaSelect();
+}
+
+function rebuildPerekSelect(){
+  const sel=document.getElementById('f-perek');
+  const cur=sel.value;
+  const sefer=document.getElementById('f-sefer').value;
+  const relevant=VERBS.filter(v=>!sefer||v[0].startsWith(sefer+' '));
+  // Extract chapter nums from refs
+  const chaps=[...new Set(relevant.map(v=>{
+    const r=parseRef(v[0]);
+    return r?r.chap:0;
+  }).filter(c=>c>0))].sort((a,b)=>a-b);
+  sel.innerHTML='<option value="">All chapters</option>';
+  chaps.forEach(c=>{
+    const o=document.createElement('option');
+    o.value=c;
+    o.textContent='פרק '+(HEB_NUMS[c-1]||c)+' ('+c+')';
+    sel.appendChild(o);
+  });
+  sel.value=chaps.includes(parseInt(cur))?cur:'';
+}
+
+function rebuildParshaSelect(){
+  const sel=document.getElementById('f-parsha');
+  const cur=sel.value;
+  const sefer=document.getElementById('f-sefer').value;
+  const divFilter=document.getElementById('f-division').value;
+  sel.innerHTML='<option value="">All parshiyot</option>';
+  const shown=PARSHIYOT.filter(p=>{
+    if(sefer&&p.book!==sefer) return false;
+    if(divFilter&&getDivision(p.book)!==divFilter) return false;
+    // Only show if we have data for this book
+    return VERBS.some(v=>v[0].startsWith(p.book+' '));
+  });
+  shown.forEach(p=>{
+    const o=document.createElement('option');
+    o.value=p.n;
+    o.textContent='פ׳ '+p.n;
+    sel.appendChild(o);
+  });
+  if(shown.find(p=>p.n===cur)) sel.value=cur; else sel.value='';
+}
+
+function onDivisionChange(){
+  document.getElementById('f-sefer').value='';
+  document.getElementById('f-perek').value='';
+  document.getElementById('f-parsha').value='';
+  rebuildSeferSelect([...new Set(VERBS.map(v=>v[0].split(' ')[0]))]);
+  render();
+}
+
+function onSeferChange(){
+  document.getElementById('f-perek').value='';
+  document.getElementById('f-parsha').value='';
+  rebuildPerekSelect();
+  rebuildParshaSelect();
+  render();
+}
+
+function updateFooter(){
+  const books=[...new Set(VERBS.map(v=>v[0].split(' ')[0]))];
+  document.getElementById('footer-note').textContent=
+    `Source: Miqra al pi HaMasorah (CC BY-SA 3.0) · ${VERBS.length} verb tokens · ${books.length} book(s): ${books.join(', ')} · Use "Add Text" to expand`;
+}
+
+const SFX_PARADIGMS=[
+  {l:"Has any suffix",sfx:"has",p:"",g:"",n:""},
+  {l:"1cs — me",sfx:"has",p:"1",g:"c",n:"s"},
+  {l:"2ms — you (m)",sfx:"has",p:"2",g:"m",n:"s"},
+  {l:"2fs — you (f)",sfx:"has",p:"2",g:"f",n:"s"},
+  {l:"3ms — him",sfx:"has",p:"3",g:"m",n:"s"},
+  {l:"3fs — her",sfx:"has",p:"3",g:"f",n:"s"},
+  {l:"1cp — us",sfx:"has",p:"1",g:"c",n:"p"},
+  {l:"2mp — you (mp)",sfx:"has",p:"2",g:"m",n:"p"},
+  {l:"2fp — you (fp)",sfx:"has",p:"2",g:"f",n:"p"},
+  {l:"3mp — them (m)",sfx:"has",p:"3",g:"m",n:"p"},
+  {l:"3fp — them (f)",sfx:"has",p:"3",g:"f",n:"p"},
+];
+function buildSfxParadigmChips(){
+  const grid=document.getElementById('sfx-paradigm-chips');
+  if(!grid)return;
+  SFX_PARADIGMS.forEach(p=>{
+    const btn=document.createElement('button');
+    btn.className='pchip';
+    btn.textContent=p.l;
+    btn.onclick=()=>applySfxParadigm(p,btn);
+    grid.appendChild(btn);
+  });
+}
+let activeSfxChip=null;
+function applySfxParadigm(p,btn){
+  if(activeSfxChip)activeSfxChip.classList.remove('selected');
+  if(activeSfxChip===btn){activeSfxChip=null;clearSfxParadigm();return;}
+  activeSfxChip=btn;btn.classList.add('selected');
+  document.getElementById('f-sfx').value=p.sfx||'';
+  document.getElementById('f-person').value=p.p||'';
+  document.getElementById('f-gender').value=p.g||'';
+  document.getElementById('f-number').value=p.n||'';
+  render();
+}
+function clearSfxParadigm(){
+  document.getElementById('f-sfx').value='';
+  document.getElementById('f-person').value='';
+  document.getElementById('f-gender').value='';
+  document.getElementById('f-number').value='';
+  render();
+}
+
+const PARADIGMS=[
+  {l:"3ms Qal Avar",h:"פָּעַל",t:"avar",b:"Qal",p:"3",g:"m",n:"s"},
+  {l:"3fs Qal Avar",h:"פָּעְלָה",t:"avar",b:"Qal",p:"3",g:"f",n:"s"},
+  {l:"1cs Avar",h:"פָּעַלְתִּי",t:"avar",b:"",p:"1",g:"",n:"s"},
+  {l:"3cp Avar",h:"פָּעְלוּ",t:"avar",b:"",p:"3",g:"",n:"p"},
+  {l:"ms Participle",h:"פֹּעֵל",t:"hove",b:"",p:"",g:"m",n:"s"},
+  {l:"fs Participle",h:"פֹּעֶלֶת",t:"hove",b:"",p:"",g:"f",n:"s"},
+  {l:"3ms Qal Atid",h:"יִפְעַל",t:"atid",b:"Qal",p:"3",g:"m",n:"s"},
+  {l:"3fs Atid",h:"תִּפְעַל",t:"atid",b:"",p:"3",g:"f",n:"s"},
+  {l:"1cs Atid",h:"אֶפְעַל",t:"atid",b:"",p:"1",g:"",n:"s"},
+  {l:"3mp Atid",h:"יִפְעְלוּ",t:"atid",b:"",p:"3",g:"m",n:"p"},
+  {l:"2mp Tzivui",h:"פִּעְלוּ",t:"tzivui",b:"",p:"2",g:"m",n:"p"},
+  {l:"Inf. Const.",h:"לִפְעֹל",t:"inf",b:"",p:"",g:"",n:""},
+  {l:"All Niphal",h:"נִפְעַל",t:"",b:"Niphal",p:"",g:"",n:""},
+  {l:"All Piel",h:"פִּעֵל",t:"",b:"Piel",p:"",g:"",n:""},
+  {l:"All Hiphil",h:"הִפְעִיל",t:"",b:"Hiphil",p:"",g:"",n:""},
+  {l:"All Hitpael",h:"הִתְפַּעֵל",t:"",b:"Hitpael",p:"",g:"",n:""},
+];
+
+function buildParadigmChips(){
+  const grid=document.getElementById('paradigm-chips');
+  PARADIGMS.forEach(p=>{
+    const btn=document.createElement('button');
+    btn.className='pchip';
+    btn.innerHTML=`<span class="heb">${p.h}</span>${p.l}`;
+    btn.onclick=()=>applyParadigm(p,btn);
+    grid.appendChild(btn);
+  });
+}
+let activeParadigmBtn=null;
+function applyParadigm(p,btn){
+  if(activeParadigmBtn)activeParadigmBtn.classList.remove('selected');
+  if(activeParadigmBtn===btn){activeParadigmBtn=null;clearParadigm();return;}
+  activeParadigmBtn=btn;btn.classList.add('selected');
+  document.getElementById('f-tense').value=p.t||"";
+  document.getElementById('f-binyan').value=p.b||"";
+  document.getElementById('f-person').value=p.p||"";
+  document.getElementById('f-number').value=p.n||"";
+  document.getElementById('f-gender').value=p.g||"";
+  render();
+}
+function clearParadigm(){['f-tense','f-binyan','f-person','f-number','f-gender'].forEach(id=>document.getElementById(id).value="");render();}
+function toggleParadigm(){
+  const panel=document.getElementById('paradigm-panel');
+  const open=panel.classList.toggle('open');
+  document.getElementById('paradigm-btn').textContent=open?'✕ Paradigm':'⊞ Paradigm';
+}
+
+function getFiltered(){
+  const q=document.getElementById('search').value.trim();
+  const ft=document.getElementById('f-tense').value;
+  const fb=document.getElementById('f-binyan').value;
+  const fr=document.getElementById('f-root').value;
+  const fdiv=document.getElementById('f-division').value;
+  const fsefer=document.getElementById('f-sefer').value;
+  const fparsha=document.getElementById('f-parsha').value;
+  const fperek=document.getElementById('f-perek').value;
+  const fp=document.getElementById('f-person').value;
+  const fn=document.getElementById('f-number').value;
+  const fg=document.getElementById('f-gender').value;
+  const fsfx=document.getElementById('f-sfx').value;
+
+  // Find the parsha object once if filtering by parsha
+  const parshaObj=fparsha?PARSHIYOT.find(p=>p.n===fparsha):null;
+
+  return VERBS.filter(v=>{
+    if(ft&&v[3]!==ft)return false;
+    if(fb&&v[4]!==fb)return false;
+    if(fr&&v[2]!==fr)return false;
+    if(fsfx==='has'&&!v[8])return false;
+    if(fsfx==='none'&&v[8])return false;
+
+    const ref=parseRef(v[0]);
+    if(!ref) return false;
+
+    // Division filter
+    if(fdiv&&getDivision(ref.book)!==fdiv) return false;
+    // Sefer filter
+    if(fsefer&&ref.book!==fsefer) return false;
+    // Perek filter
+    if(fperek&&ref.chap!==parseInt(fperek)) return false;
+    // Parsha filter
+    if(parshaObj){
+      if(ref.book!==parshaObj.book) return false;
+      const afterStart=(ref.chap>parshaObj.fc)||(ref.chap===parshaObj.fc&&ref.verse>=parshaObj.fv);
+      const beforeEnd=(ref.chap<parshaObj.tc)||(ref.chap===parshaObj.tc&&ref.verse<=parshaObj.tv);
+      if(!afterStart||!beforeEnd) return false;
+    }
+
+    const pgn=parsePGN(v[5]);
+    if(fp&&pgn.person!==fp)return false;
+    if(fn&&pgn.number!==fn)return false;
+    if(fg&&pgn.gender!==fg)return false;
+    if(q&&!fuzzyMatch([v[1],v[2],v[7],v[5]].join(' '),q))return false;
+    return true;
+  });
+}
+
+function collapseDups(verbs){
+  const map=new Map(),order=[];
+  verbs.forEach(v=>{
+    const k=`${v[1]}|${v[2]}|${v[3]}|${v[4]}|${v[5]}`;
+    if(map.has(k)){map.get(k).count++;map.get(k).refs.push(v[0]);}
+    else{const e={v,count:1,refs:[v[0]]};map.set(k,e);order.push(k);}
+  });
+  return order.map(k=>map.get(k));
+}
+
+let expandedKeys=new Set();
+let currentFiltered=[];
+
+function makeRow(entry,q){
+  const{v,count,refs}=entry;
+  const[ref,word,root,tense,binyan,pgn,vav,eng,sfxPgn,sfxForm]=v;
+  const key=`${v[1]}|${v[2]}|${v[3]}|${v[4]}|${v[5]}`;
+  const isExp=expandedKeys.has(key);
+  const wHl=q?hlMatch(word,q):word;
+  const rHl=q?hlMatch(root,q):root;
+  const eHl=q?hlMatch(eng,q):eng;
+  const cb=count>1?`<span class="count-badge" title="Also in: ${refs.slice(1).join(', ')}">${count}×</span>`:'';
+  const sb=sfxPgn?`<span class="sfx-pill" title="Pronominal suffix ${sfxPgn}">${sfxForm||sfxPgn}</span>`:'';
+  const refD=count>1?`${ref} <span style="font-size:9px;color:var(--ink-faint)">(+${count-1})</span>`:ref;
+  const safeKey=key.replace(/['"&<>]/g,'_'); // kept for potential future use
+  const vdata=JSON.stringify(v).replace(/"/g,'&quot;');
+  return`<tr class="clickable-row verb-row${isExp?' expanded':''}" data-v="${vdata}" onclick="openCtxFromData(this)" style="user-select:none">
+    <td class="ref-cell">${refD}</td>
+    <td class="word-cell">${wHl}${cb}</td>
+    <td class="root-cell">${rHl}</td>
+    <td><span class="pill" style="${TENSE_STYLE[tense]||''}">${TENSE_LABEL[tense]||tense}</span></td>
+    <td><span class="pill" style="${BINYAN_STYLE[binyan]||''}">${(BINYAN_HEB[binyan]||binyan)+' '+binyan}</span></td>
+    <td class="pgn-cell">${pgn}</td>
+    <td class="${vav?'vav-yes':'vav-no'}">${vav?'✓':'—'}</td>
+    <td class="en-cell">${eHl}${sb}</td>
+  </tr>`;
+}
+
+function makeCtxRow(v){
+  const[ref,word,root,tense,binyan,pgn,vav,eng,sfxPgn,sfxForm]=v;
+  const verseWords=VERBS.filter(vv=>vv[0]===ref);
+  const wordSpans=verseWords.map(vv=>`<span style="${vv[1]===word&&vv[3]===tense?'background:rgba(201,168,76,0.5);border-radius:3px;font-weight:700;color:var(--navy-dark);padding:0 2px':'padding:0 2px'}">${vv[1]}</span>`).join(' ');
+  let sfxHtml='';
+  if(sfxPgn){
+    const sd=OBJ_SFX_MAP[sfxPgn];
+    sfxHtml=`<div style="margin-top:.5rem">
+      <div class="context-sfx-title">Pronominal object suffix on this verb:</div>
+      <div class="context-sfx-grid">
+        <div class="sfx-chip"><span class="sfx-form">${sfxForm||sfxPgn}</span><span class="sfx-label">${sfxPgn}${sd?' — '+sd.meaning:''}</span></div>
+        ${sd?`<div class="sfx-chip"><span class="sfx-form">${sd.suffix}</span><span class="sfx-label">morpheme</span></div>`:''}
+        ${sd?`<div class="sfx-chip"><span class="sfx-form" style="font-size:12px">${sd.avar}</span><span class="sfx-label">avar paradigm</span></div>`:''}
+      </div>
+    </div>`;
+  }
+  return`<tr class="context-row">
+    <td colspan="8"><div class="context-inner">
+      <div class="context-verse">${word} — <span style="font-size:13px;color:var(--ink-light)">${ref}</span>
+        ${wordSpans?`<div style="margin-top:.3rem;opacity:.75;line-height:2">${wordSpans}</div>`:''}
+      </div>
+      <div class="context-meta">
+        <span>📖 ${ref}</span>
+        <span>⏱ ${TENSE_LABEL[tense]||tense}</span>
+        <span>🔤 ${(BINYAN_HEB[binyan]||binyan)} (${binyan})</span>
+        <span>👤 ${pgn}</span>
+        <span>שורש: <span style="font-family:'Frank Ruhl Libre',serif">${root}</span></span>
+        ${vav?'<span>ו״ה consecutive ✓</span>':''}
+      </div>
+      ${sfxHtml}
+    </div></td>
+  </tr>`;
+}
+
+function toggleCtx(safeKey,vArr){
+  // Recover original key
+  const v=vArr;
+  const key=`${v[1]}|${v[2]}|${v[3]}|${v[4]}|${v[5]}`;
+  if(expandedKeys.has(key))expandedKeys.delete(key);
+  else expandedKeys.add(key);
+  render();
+}
+
+function render(){
+  currentFiltered=getFiltered();
+  // Apply column sort
+  if(sortState.col>=0){
+    const col=sortState.col,dir=sortState.dir;
+    currentFiltered=[...currentFiltered].sort((a,b)=>{
+      let va=a[col]??'',vb=b[col]??'';
+      if(col===3){va=TENSE_ORDER[va]??9;vb=TENSE_ORDER[vb]??9;return dir*(va-vb);}
+      if(typeof va==='boolean')return dir*((va?1:0)-(vb?1:0));
+      return dir*String(va).localeCompare(String(vb),'he');
+    });
+  }
+  const groupBy=document.getElementById('f-group').value;
+  const collapse=document.getElementById('f-dup').value==='collapse';
+  const q=document.getElementById('search').value.trim();
+  document.getElementById('count').textContent=currentFiltered.length;
+  const tbody=document.getElementById('tbody');
+  if(!currentFiltered.length){
+    tbody.innerHTML=`<tr><td colspan="8" class="empty-state">No results — adjust filters or add more text.</td></tr>`;
+    document.getElementById('dup-note').textContent='';
+    return;
+  }
+  const entries=collapse?collapseDups(currentFiltered):currentFiltered.map(v=>({v,count:1,refs:[v[0]]}));
+  const dupCount=currentFiltered.length-entries.length;
+  document.getElementById('dup-note').textContent=collapse&&dupCount>0?`(${dupCount} duplicate${dupCount>1?'s':''} collapsed)`:'';
+
+  function renderEntries(ents){
+    let h='';
+    ents.forEach(e=>{
+      const key=`${e.v[1]}|${e.v[2]}|${e.v[3]}|${e.v[4]}|${e.v[5]}`;
+      h+=makeRow(e,q);
+      if(expandedKeys.has(key))h+=makeCtxRow(e.v);
+    });
+    return h;
+  }
+
+  if(groupBy==='none'){tbody.innerHTML=renderEntries(entries);return;}
+
+  const groups=new Map();
+  entries.forEach(e=>{
+    const v=e.v;
+    let k;
+    if(groupBy==='tense')k=TENSE_LABEL[v[3]]||v[3];
+    else if(groupBy==='binyan')k=(BINYAN_HEB[v[4]]||v[4])+' ('+v[4]+')';
+    else if(groupBy==='root')k='שורש  '+v[2];
+    else if(groupBy==='pgn'){const p=parsePGN(v[5]);k=`${p.person||'—'}${p.gender||''}${p.number||''}`;}
+    else if(groupBy==='ref')k=v[0].split(':')[0]; // book + chapter
+    else if(groupBy==='parsha'){const r=parseRef(v[0]);k=r?(getParsha(r.book,r.chap,r.verse)||'פ׳ '+v[0].split(':')[0]):'—';}
+    if(!groups.has(k))groups.set(k,[]);
+    groups.get(k).push(e);
+  });
+  let h='';
+  groups.forEach((ents,k)=>{
+    const tot=ents.reduce((s,e)=>s+e.count,0);
+    h+=`<tr class="group-header"><td colspan="8">${k} — ${tot} form${tot>1?'s':''}</td></tr>`;
+    h+=renderEntries(ents);
+  });
+  tbody.innerHTML=h;
+}
+
+['search','f-tense','f-binyan','f-root','f-sefer','f-parsha','f-perek','f-group','f-person','f-number','f-gender','f-sfx','f-dup'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el){el.addEventListener('input',render);el.addEventListener('change',render);}
+});
+
+// ══════════════════════════════════════════════════
+// PASTE SUB-TAB SWITCHER
+// ══════════════════════════════════════════════════
+function switchPasteTab(tab, btn){
+  document.querySelectorAll('.paste-subtab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('paste-auto').style.display   = tab==='auto'   ? 'block' : 'none';
+  document.getElementById('paste-manual').style.display = tab==='manual' ? 'block' : 'none';
+}
+
+// ══════════════════════════════════════════════════
+// SEFARIA AUTO-FETCH ENGINE
+// ══════════════════════════════════════════════════
+
+// Book abbreviations for refs (matches existing seed data style)
+const SEFARIA_ABBREV={
+  'Genesis':'בר','Exodus':'שמ','Leviticus':'ויק','Numbers':'במד','Deuteronomy':'דב',
+  'Joshua':'יהו','Judges':'שפ','I Samuel':'שמא','II Samuel':'שמב',
+  'I Kings':'מלא','II Kings':'מלב','Isaiah':'יש','Jeremiah':'יר','Ezekiel':'יח',
+  'Psalms':'תה','Proverbs':'מש','Job':'אי','Ruth':'רו','Esther':'אס'
+};
+
+// Hebrew chapter numerals 1-50
+const HEB_NUMS=['א','ב','ג','ד','ה','ו','ז','ח','ט','י',
+  'יא','יב','יג','יד','טו','טז','יז','יח','יט','כ',
+  'כא','כב','כג','כד','כה','כו','כז','כח','כט','ל',
+  'לא','לב','לג','לד','לה','לו','לז','לח','לט','מ',
+  'מא','מב','מג','מד','מה','מו','מז','מח','מט','נ',
+  'נא','נב','נג','נד','נה','נו','נז','נח','נט','ס',
+  'סא','סב','סג','סד','סה','סו','סז','סח','סט','ע',
+  'עא','עב','עג','עד','עה','עו','עז','עח','עט','פ',
+  'פא','פב','פג','פד','פה','פו','פז','פח','פט','צ',
+  'צא','צב','צג','צד','צה','צו','צז','צח','צט','ק',
+  'קא','קב','קג','קד','קה','קו','קז','קח','קט','קי',
+  'קיא','קיב','קיג','קיד','קטו','קטז','קיז','קיח','קיט','קכ',
+  'קכא','קכב','קכג','קכד','קכה','קכו','קכז','קכח','קכט','קל',
+  'קלא','קלב','קלג','קלד','קלה','קלו','קלז','קלח','קלט','קמ',
+  'קמא','קמב','קמג','קמד','קמה','קמו','קמז','קמח','קמט','קנ'
+];
+
+let autoFetchRunning=false;
+let autoFetchStop=false;
+
+async function fetchSefariaChapter(book, chapNum){
+  // Sefaria API: /api/texts/Book.Chapter?lang=he&context=0&pad=0
+  const url=`https://www.sefaria.org/api/texts/${encodeURIComponent(book)}.${chapNum}?lang=he&context=0&pad=0&stripItags=1`;
+  const resp=await fetch(url);
+  if(!resp.ok) throw new Error(`Sefaria API ${resp.status} for ${book} ${chapNum}`);
+  const data=await resp.json();
+  // data.he is array of verse strings (already Hebrew)
+  const verses=data.he||[];
+  if(!verses.length) throw new Error(`No Hebrew text returned for ${book} ${chapNum}`);
+  // Join verses with verse number hints so the AI can tag them
+  return verses.map((v,i)=>`(${i+1}) ${v}`).join('\n');
+}
+
+function autoLog(msg, cls=''){
+  const el=document.getElementById('auto-log');
+  if(!el) return;
+  el.style.display='block';
+  const span=document.createElement('span');
+  if(cls) span.className=cls;
+  span.textContent=msg+'\n';
+  el.appendChild(span);
+  el.scrollTop=el.scrollHeight;
+}
+
+async function startAutoFetch(){
+  if(autoFetchRunning) return;
+  const book=document.getElementById('auto-book').value;
+  const from=parseInt(document.getElementById('auto-from').value)||1;
+  const to=parseInt(document.getElementById('auto-to').value)||1;
+  const skipExisting=document.getElementById('auto-skip').checked;
+  if(from>to){alert('From chapter must be ≤ To chapter.');return;}
+
+  autoFetchRunning=true;
+  autoFetchStop=false;
+  document.getElementById('auto-btn').disabled=true;
+  document.getElementById('auto-stop-btn').style.display='inline-block';
+  document.getElementById('auto-log').innerHTML='';
+  document.getElementById('auto-log').style.display='block';
+  document.getElementById('auto-progress-bar').style.display='block';
+
+  const abbrev=SEFARIA_ABBREV[book]||book.slice(0,3);
+  const total=to-from+1;
+  let done=0, addedTotal=0, skippedTotal=0, errorTotal=0;
+  const startTime=Date.now();
+
+  autoLog(`Starting: ${book} chapters ${from}–${to} (${total} chapters)`,'log-info');
+  autoLog(`Book abbreviation: ${abbrev}`,'log-info');
+
+  for(let chap=from; chap<=to; chap++){
+    if(autoFetchStop) break;
+
+    const chapHeb=HEB_NUMS[chap-1]||String(chap);
+    const chapterKey=`${abbrev} ${chapHeb}`;
+    const pct=Math.round(done/total*100);
+    document.getElementById('auto-progress-fill').style.width=pct+'%';
+    document.getElementById('auto-status').textContent=`Chapter ${chap}/${to}: ${chapterKey}`;
+
+    // ETA
+    if(done>0){
+      const elapsed=(Date.now()-startTime)/1000;
+      const perChap=elapsed/done;
+      const remaining=Math.round((total-done)*perChap);
+      const mins=Math.floor(remaining/60), secs=remaining%60;
+      document.getElementById('auto-eta').textContent=`~${mins}m ${secs}s remaining`;
+    }
+
+    // Skip if already in DB
+    if(skipExisting){
+      const exists=VERBS.slice(SEED_COUNT).some(v=>v[0].startsWith(chapterKey+':'));
+      if(exists){
+        autoLog(`  ⟳ ${chapterKey} — already in database, skipped`,'log-skip');
+        done++; skippedTotal++; continue;
+      }
+    }
+
+    // Fetch from Sefaria
+    let hebrewText;
+    try{
+      autoLog(`  ↓ Fetching ${chapterKey} from Sefaria…`,'log-info');
+      hebrewText=await fetchSefariaChapter(book,chap);
+      autoLog(`    Got ${hebrewText.length} chars, ${hebrewText.split('\n').length} verses`,'log-info');
+    }catch(err){
+      autoLog(`  ✗ Fetch error: ${err.message}`,'log-err');
+      errorTotal++;done++;
+      await sleep(1000);continue;
+    }
+
+    if(autoFetchStop) break;
+
+    // Parse verbs + suffixes
+    try{
+      const result=await parseChapterText(hebrewText, abbrev, chapHeb, chapterKey);
+      addedTotal+=result.verbs;
+      autoLog(`  ✓ ${chapterKey} — +${result.verbs} verbs, +${result.sfx} suffixed words`,'log-ok');
+    }catch(err){
+      autoLog(`  ✗ Parse error on ${chapterKey}: ${err.message.slice(0,80)}`,'log-err');
+      errorTotal++;
+    }
+
+    done++;
+    // Delay between chapters to be polite to APIs
+    if(chap<to && !autoFetchStop) await sleep(600);
+  }
+
+  document.getElementById('auto-progress-fill').style.width='100%';
+  setTimeout(()=>document.getElementById('auto-progress-bar').style.display='none',1500);
+  const elapsed=Math.round((Date.now()-startTime)/60000);
+  autoLog(`\nDone! +${addedTotal} verbs total · ${skippedTotal} chapters skipped · ${errorTotal} errors · ${elapsed}m elapsed`,'log-ok');
+  autoLog(`Database now: ${VERBS.length} verbs, ${SUFFIXED.length} suffixed words`,'log-info');
+  document.getElementById('auto-status').textContent=`Complete — ${addedTotal} verbs added`;
+  document.getElementById('auto-eta').textContent='';
+  document.getElementById('auto-btn').disabled=false;
+  document.getElementById('auto-stop-btn').style.display='none';
+  autoFetchRunning=false;
+  rebuildSelects();render();renderStats();
+}
+
+function stopAutoFetch(){
+  autoFetchStop=true;
+  document.getElementById('auto-status').textContent='Stopping after current chapter…';
+  autoLog('Stop requested — will finish current chapter then stop.','log-warn');
+}
+
+// Core parsing function — shared by manual parse and auto-fetch
+// Returns {verbs: count, sfx: count}
+async function parseChapterText(text, bookAbbrev, chapHeb, chapterKey){
+  const VERB_SYS=`You are an expert Biblical Hebrew morphologist with mastery of all Tanakh verb forms.
+
+TASK: Find every verb token and return structured JSON.
+
+INCLUDE: Qatal, Yiqtol, Wayyiqtol, Weyiqtol, Cohortative, Jussive, participles (active+passive), infinitives construct and absolute, imperatives.
+EXCLUDE: pure nouns, pronouns, particles, prepositions (even if they look verbal).
+
+For each verb return:
+- "word": exact form with all nikud as it appears
+- "root": 3-letter shoresh without nikud
+- "tense": "avar"|"hove"|"atid"|"tzivui"|"inf"|"inf_abs"
+- "binyan": "Qal"|"Niphal"|"Piel"|"Pual"|"Hiphil"|"Hophal"|"Hitpael"
+- "pgn": "3ms"|"3fs"|"3mp"|"3fp"|"3cp"|"2ms"|"2fs"|"2mp"|"2fp"|"2cp"|"1cs"|"1cp" for finite; "ms"|"fs"|"mp"|"fp" for participles; "—" for infinitives
+- "vav": true ONLY for Wayyiqtol (וַיִּ/וַתִּ etc.) or Waw-consecutive perfect; false otherwise
+- "english": 2-5 word gloss with pronoun
+- "verse": verse number as shown in text (number in parentheses or Hebrew letter)
+
+Return ONLY: {"verbs":[...]} — no markdown, no explanation.`;
+
+  const SFX_SYS=`You are an expert Biblical Hebrew morphologist specializing in pronominal suffixes.
+
+TASK: Find every word carrying a TRUE pronominal suffix and return structured JSON.
+
+CRITICAL DISTINCTION:
+A PRONOMINAL SUFFIX = a personal pronoun morpheme (me/you/him/her/us/them) attached to a word.
+A CONSTRUCT STATE (סְמִיכוּת) is NOT a suffix.
+
+DO NOT include: פְּנֵי (face of), בְּנֵי (sons of), דִּבְרֵי (words of), מֵי (waters of) — construct plurals, not possessives.
+If a word is immediately followed by another noun in a genitive chain, it is construct state — skip it.
+
+DO include: לוֹ (to him), אֵלָיו (to him), בּוֹ (in it), עָלֶיהָ (upon her), שְׁמָרוֹ (he guarded him), בֵּיתוֹ (his house — only if not followed by another noun), אֹתָהּ (her/it).
+
+For each truly suffixed word return:
+- "word": exact form with all nikud
+- "base": unsuffixed base without nikud
+- "word_type": "verb" | "noun" | "prep" | "other"
+- "sfx_pgn": "3ms"|"3fs"|"3mp"|"3fp"|"2ms"|"2fs"|"2mp"|"2fp"|"1cs"|"1cp"
+- "sfx_form": the suffix morpheme in Hebrew (e.g. "וֹ" "הָ" "נוּ" "הֶם" "נִי" "ךָ")
+- "sfx_type": "obj" | "poss" | "prep" | "other"
+- "english": gloss showing suffix role
+- "verse": verse number from context
+
+Return ONLY: {"suffixed":[...]} — no markdown, no explanation.`;
+
+  const chunks=chunkText(text,2500);
+
+  async function callAI(sys,userMsg){
+    for(let att=0;att<3;att++){
+      try{
+        const r=await fetch("https://api.anthropic.com/v1/messages",{
+          method:"POST",headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:4096,system:sys,
+            messages:[{role:"user",content:userMsg}]})
+        });
+        if(!r.ok){
+          const et=await r.text();
+          if(r.status===529||r.status===503){await sleep(2500*(att+1));continue;}
+          throw new Error(`API ${r.status}`);
+        }
+        const d=await r.json();
+        const raw=d.content.map(c=>c.text||'').join('').replace(/```json|```/g,'').trim();
+        const ji=raw.indexOf('{');
+        const clean=ji>0?raw.slice(ji):raw;
+        try{return JSON.parse(clean);}catch(e){
+          const m=clean.match(/\{[\s\S]*\}/);
+          if(m)return JSON.parse(m[0]);
+          throw new Error('JSON parse failed');
+        }
+      }catch(err){
+        if(att<2)await sleep(1500*(att+1));
+        else throw err;
+      }
+    }
+  }
+
+  const VALID_T=new Set(['avar','hove','atid','tzivui','inf','inf_abs']);
+  const VALID_B=new Set(['Qal','Niphal','Piel','Pual','Hiphil','Hophal','Hitpael']);
+  const VALID_WT=new Set(['verb','noun','prep','other']);
+  const VALID_ST=new Set(['obj','poss','prep','construct','other']);
+  let totalV=0,totalS=0;
+
+  for(let ci=0;ci<chunks.length;ci++){
+    if(autoFetchStop) break;
+    const ctx=`Book: ${bookAbbrev}  Chapter: ${chapHeb}  Chunk ${ci+1}/${chunks.length}`;
+
+    const vr=await callAI(VERB_SYS,`Parse ALL verbs.\n${ctx}\n\n${chunks[ci]}`);
+    if(vr){
+      (vr.verbs||[]).forEach(v=>{
+        if(!v.word||!v.root||!v.tense||!v.binyan)return;
+        if(!VALID_T.has(v.tense))v.tense='avar';
+        if(!VALID_B.has(v.binyan))v.binyan='Qal';
+        // parse verse — handle "(1)" or "א" formats
+        let verse=v.verse||'?';
+        if(typeof verse==='string'){const m=verse.match(/^\((\d+)\)$/);if(m)verse=m[1];}
+        const row=[`${bookAbbrev} ${chapHeb}:${verse}`,v.word,v.root,v.tense,v.binyan,v.pgn||'—',!!v.vav,v.english||''];
+        if(v.suffix_pgn){row.push(v.suffix_pgn);row.push(v.suffix_form||'');}
+        VERBS.push(row);totalV++;
+      });
+    }
+
+    const sr=await callAI(SFX_SYS,`Find ALL suffixed words.\n${ctx}\n\n${chunks[ci]}`);
+    if(sr){
+      (sr.suffixed||[]).forEach(s=>{
+        if(!s.word||!s.sfx_pgn||!s.sfx_form)return;
+        let verse=s.verse||'?';
+        if(typeof verse==='string'){const m=verse.match(/^\((\d+)\)$/);if(m)verse=m[1];}
+        const wt=VALID_WT.has(s.word_type)?s.word_type:'other';
+        const st=VALID_ST.has(s.sfx_type)?s.sfx_type:'other';
+        SUFFIXED.push([`${bookAbbrev} ${chapHeb}:${verse}`,s.word,s.base||s.word,wt,s.sfx_pgn||'',s.sfx_form||'',st,s.english||'']);
+        totalS++;
+      });
+    }
+    if(ci<chunks.length-1)await sleep(400);
+  }
+
+  saveDB();saveSfxDB();
+  document.getElementById('db-counter-badge').textContent=VERBS.length+' verbs';
+  return{verbs:totalV,sfx:totalS};
+}
+
+// AI PARSER — thin wrapper around shared parseChapterText()
+async function parseText(){
+  const text=document.getElementById('paste-input').value.trim();
+  const bookVal=document.getElementById('parse-book').value.trim()||'?';
+  const chapVal=document.getElementById('parse-chapter').value.trim()||'?';
+  if(!text){setStatus('Please paste some Hebrew text first.','error');return;}
+
+  const btn=document.getElementById('parse-btn');
+  const pb=document.getElementById('progress-bar'),pf=document.getElementById('progress-fill');
+  const logEl=document.getElementById('parse-log');
+  btn.disabled=true;pb.style.display='block';pf.style.width='5%';
+  logEl.style.display='block';logEl.textContent='';
+  setStatus('Sending to AI…','');
+
+  // Chapter-level duplicate guard
+  const chapterKey=`${bookVal} ${chapVal}`;
+  const chapterExists=VERBS.slice(SEED_COUNT).some(v=>v[0].startsWith(chapterKey+':'));
+  if(chapterExists){
+    const doReplace=confirm(`"${chapterKey}" already exists in the database.\n\nOK = replace   Cancel = skip`);
+    if(!doReplace){
+      pb.style.display='none';
+      setStatus(`Skipped — "${chapterKey}" already exists.`,'');
+      btn.disabled=false;return;
+    }
+    for(let i=VERBS.length-1;i>=SEED_COUNT;i--){
+      if(VERBS[i][0].startsWith(chapterKey+':'))VERBS.splice(i,1);
+    }
+    for(let i=SUFFIXED.length-1;i>=SFX_SEED;i--){
+      if(SUFFIXED[i][0].startsWith(chapterKey+':'))SUFFIXED.splice(i,1);
+    }
+  }
+
+  try{
+    pf.style.width='30%';
+    setStatus(`Parsing ${chapterKey}…`,'');
+    const result=await parseChapterText(text,bookVal,chapVal,chapterKey);
+    pf.style.width='100%';
+    setTimeout(()=>{pb.style.display='none';pf.style.width='0%';},1000);
+    rebuildSelects();render();
+    setStatus(`✓ +${result.verbs} verbs, +${result.sfx} suffixed words from ${chapterKey}. (Auto-saved)`,'success');
+    logEl.textContent+=`✓ Done! +${result.verbs} verbs, +${result.sfx} suffixed. DB: ${VERBS.length} verbs.\n`;
+    setTimeout(()=>{
+      document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.tab-btn')[0].classList.add('active');
+      ['paste','pronouns','stats'].forEach(t=>document.getElementById('tab-'+t).style.display='none');
+      document.getElementById('tab-verbs').style.display='block';
+    },1500);
+  }catch(err){
+    pf.style.width='0%';pb.style.display='none';
+    setStatus('Error: '+err.message,'error');
+    logEl.textContent+='✗ '+err.message+'\n';
+  }
+  btn.disabled=false;
+}
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function chunkText(text,maxLen){
+  if(text.length<=maxLen)return[text];
+  const chunks=[],parts=text.split(/(?=[{(]|[\u05E4\u05E1][})]|\n(?=[\u05D0-\u05EA]))/);
+  let cur='';
+  for(const p of parts){if((cur+p).length>maxLen&&cur){chunks.push(cur);cur=p;}else cur+=p;}
+  if(cur)chunks.push(cur);
+  const res=[];
+  for(const c of chunks){if(c.length<=maxLen)res.push(c);else for(let i=0;i<c.length;i+=maxLen)res.push(c.slice(i,i+maxLen));}
+  return res.filter(c=>c.trim());
+}
+function setStatus(msg,type){
+  const el=document.getElementById('parse-status');
+  el.textContent=msg;el.className='parse-status'+(type?' '+type:'');
+}
+
+// PRONOUNS — build all paradigm reference tables
+const PREP_SFX_LE=[
+  ['1cs','לִי','to me'],['2ms','לְךָ','to you (ms)'],['2fs','לָךְ','to you (fs)'],
+  ['3ms','לוֹ','to him'],['3fs','לָהּ','to her'],['1cp','לָנוּ','to us'],
+  ['2mp','לָכֶם','to you (mp)'],['2fp','לָכֶן','to you (fp)'],['3mp','לָהֶם','to them (m)'],['3fp','לָהֶן','to them (f)'],
+];
+const PREP_SFX_MIN=[
+  ['1cs','מִמֶּנִּי','from me'],['2ms','מִמְּךָ','from you (ms)'],['2fs','מִמֵּךְ','from you (fs)'],
+  ['3ms','מִמֶּנּוּ','from him'],['3fs','מִמֶּנָּה','from her'],['1cp','מִמֶּנּוּ','from us'],
+  ['2mp','מִכֶּם','from you (mp)'],['2fp','מִכֶּן','from you (fp)'],['3mp','מֵהֶם','from them (m)'],['3fp','מֵהֶן','from them (f)'],
+];
+const PREP_SFX_EL=[
+  ['1cs','אֵלַי','to me'],['2ms','אֵלֶיךָ','to you (ms)'],['2fs','אֵלַיִךְ','to you (fs)'],
+  ['3ms','אֵלָיו','to him'],['3fs','אֵלֶיהָ','to her'],['1cp','אֵלֵינוּ','to us'],
+  ['2mp','אֲלֵיכֶם','to you (mp)'],['2fp','אֲלֵיכֶן','to you (fp)'],['3mp','אֲלֵיהֶם','to them (m)'],['3fp','אֲלֵיהֶן','to them (f)'],
+];
+const PREP_SFX_AL=[
+  ['1cs','עָלַי','on me'],['2ms','עָלֶיךָ','on you (ms)'],['2fs','עָלַיִךְ','on you (fs)'],
+  ['3ms','עָלָיו','on him'],['3fs','עָלֶיהָ','on her'],['1cp','עָלֵינוּ','on us'],
+  ['2mp','עֲלֵיכֶם','on you (mp)'],['2fp','עֲלֵיכֶן','on you (fp)'],['3mp','עֲלֵיהֶם','on them (m)'],['3fp','עֲלֵיהֶן','on them (f)'],
+];
+
+function buildPronounTables(){
+  const alt=['#FAFAF7','#F5F0E8'];
+  function row2(r,col,i){
+    return`<tr style="background:${alt[i%2]}">
+      <td style="font-size:11px;color:var(--ink-mid)">${r[0]}</td>
+      <td style="font-size:10px;color:var(--ink-light);font-variant:small-caps">${r[1]}</td>
+      <td style="font-family:'Frank Ruhl Libre',serif;font-size:13px;direction:rtl;text-align:right;color:var(--navy)">${r[2]}</td>
+      <td class="sfx-heb">${r[col]}</td>
+      <td style="font-size:11px;color:var(--ink-mid);font-style:italic">${r[5]}</td></tr>`;
+  }
+  function rowPoss(r,i){
+    return`<tr style="background:${alt[i%2]}">
+      <td style="font-size:11px;color:var(--ink-mid)">${r[0]}</td>
+      <td style="font-size:10px;color:var(--ink-light);font-variant:small-caps">${r[1]}</td>
+      <td style="font-family:'Frank Ruhl Libre',serif;font-size:13px;direction:rtl;text-align:right;color:var(--navy)">${r[2]}</td>
+      <td class="sfx-heb">${r[3]}</td><td class="sfx-heb">${r[4]}</td>
+      <td style="font-size:11px;color:var(--ink-mid);font-style:italic">${r[8]}</td></tr>`;
+  }
+  function rowFsPoss(r,i){
+    return`<tr style="background:${alt[i%2]}">
+      <td style="font-size:11px;color:var(--ink-mid)">${r[0]}</td>
+      <td style="font-size:10px;color:var(--ink-light);font-variant:small-caps">${r[1]}</td>
+      <td style="font-family:'Frank Ruhl Libre',serif;font-size:13px;direction:rtl;text-align:right;color:var(--navy)">${r[2]}</td>
+      <td class="sfx-heb">${r[5]}</td><td class="sfx-heb">${r[6]}</td>
+      <td style="font-size:11px;color:var(--ink-mid);font-style:italic">${r[8]}</td></tr>`;
+  }
+  function rowPrep(r,i){
+    return`<tr style="background:${alt[i%2]}">
+      <td style="font-size:10px;color:var(--ink-light);font-variant:small-caps">${r[0]}</td>
+      <td class="sfx-heb">${r[1]}</td>
+      <td style="font-size:11px;color:var(--ink-mid);font-style:italic">${r[2]}</td></tr>`;
+  }
+
+  const el=id=>document.getElementById(id);
+  if(el('obj-avar-body')) el('obj-avar-body').innerHTML=OBJ_SFX.map((r,i)=>row2(r,3,i)).join('');
+  if(el('obj-atid-body')) el('obj-atid-body').innerHTML=OBJ_SFX.map((r,i)=>row2(r,4,i)).join('');
+  if(el('poss-ms-body'))  el('poss-ms-body').innerHTML =POSS_SFX.map((r,i)=>rowPoss(r,i)).join('');
+  if(el('poss-fs-body'))  el('poss-fs-body').innerHTML =POSS_SFX.map((r,i)=>rowFsPoss(r,i)).join('');
+  if(el('prep-le-body'))  el('prep-le-body').innerHTML =PREP_SFX_LE.map((r,i)=>rowPrep(r,i)).join('');
+  if(el('prep-min-body')) el('prep-min-body').innerHTML=PREP_SFX_MIN.map((r,i)=>rowPrep(r,i)).join('');
+  if(el('prep-el-body'))  el('prep-el-body').innerHTML =PREP_SFX_EL.map((r,i)=>rowPrep(r,i)).join('');
+  if(el('prep-al-body'))  el('prep-al-body').innerHTML =PREP_SFX_AL.map((r,i)=>rowPrep(r,i)).join('');
+}
+
+
+
+// STATS
+function renderStats(){
+  const scope=(document.getElementById('stats-scope')||{value:'all'}).value;
+  const data=scope==='filtered'?currentFiltered:VERBS;
+  const note=document.getElementById('stats-scope-note');
+  if(note) note.textContent=data.length+' verb tokens';
+
+  function freq(arr){
+    const m=new Map();
+    arr.forEach(k=>{m.set(k,(m.get(k)||0)+1);});
+    return [...m.entries()].sort((a,b)=>b[1]-a[1]);
+  }
+  function bar(id,items,maxV,colorFn,labelClass){
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.innerHTML=items.map(([label,count])=>{
+      const pct=maxV>0?Math.round(count/maxV*100):0;
+      return`<div class="bar-row"><div class="bar-label ${labelClass||''}" title="${label}">${label}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${colorFn(label)}"></div></div><div class="bar-count">${count}</div></div>`;
+    }).join('');
+  }
+
+  const TENSE_COL={avar:'#4a7fc1',hove:'#4caf7d',atid:'#e07b54',tzivui:'#c9a84c',inf:'#9c6dd8',inf_abs:'#b0997a'};
+  const BIN_COL={Qal:'#6b5b45',Niphal:'#2e8b57',Piel:'#8b3a6b',Pual:'#a05070',Hiphil:'#2a5090',Hophal:'#4a6a90',Hitpael:'#8b6a1a'};
+
+  // Summary
+  const roots=new Set(data.map(v=>v[2])).size;
+  const books=new Set(data.map(v=>v[0].split(' ')[0])).size;
+  const vavN=data.filter(v=>v[6]).length;
+  const sfxN=data.filter(v=>v[8]).length;
+  const sumEl=document.getElementById('stats-summary');
+  if(sumEl) sumEl.innerHTML=
+    `<div class="snum"><div class="snum-val">${data.length}</div><div class="snum-lbl">verb tokens</div></div>`+
+    `<div class="snum"><div class="snum-val">${roots}</div><div class="snum-lbl">unique roots</div></div>`+
+    `<div class="snum"><div class="snum-val">${vavN}</div><div class="snum-lbl">vav-consec.</div></div>`+
+    `<div class="snum"><div class="snum-val">${sfxN}</div><div class="snum-lbl">with suffix</div></div>`;
+
+  const rootF=freq(data.map(v=>v[2]));
+  const maxR=rootF[0]?rootF[0][1]:1;
+  bar('chart-roots',rootF.slice(0,15),maxR,()=>'#4a7fc1');
+  bar('chart-roots-full',rootF,maxR,()=>'#6b5b9c');
+
+  const tF=freq(data.map(v=>v[3]));
+  const tDisp=tF.map(([k,c])=>[(TENSE_LABEL[k]||k).replace(/[^\x00-\x7F]/g,'').trim()||k,c]);
+  bar('chart-tense',tDisp,tF[0]?tF[0][1]:1,(l)=>{
+    const key=tF.find(([k])=>(TENSE_LABEL[k]||k)===l||k===l);
+    return TENSE_COL[key?key[0]:'']||'#888';
+  },'en-lbl');
+
+  const bF=freq(data.map(v=>v[4]));
+  bar('chart-binyan',bF,bF[0]?bF[0][1]:1,(l)=>BIN_COL[l]||'#888');
+
+  const pF=freq(data.map(v=>v[5])).slice(0,12);
+  bar('chart-pgn',pF,pF[0]?pF[0][1]:1,()=>'#8b6a45');
+}
+// Alias for legacy call
+function buildStats(){renderStats();}
+
+
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  ['verbs','paste','pronouns','stats'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display=t===tab?'block':'none';
+  });
+  if(tab==='stats') renderStats();
+  if(tab==='pronouns'){ buildPronounTables(); renderSuffixConcordance(); }
+}
+
+// EXPORT
+function dl(content,filename,type){
+  const blob=new Blob(['\uFEFF'+content],{type:type+';charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();
+}
+function exportCSV(){
+  const hdrs=['Ref','Word','Root','Tense','Binyan','PGN','Vav-consec','Translation','Suffix_PGN','Suffix_Form'];
+  const rows=currentFiltered.map(v=>[`"${v[0]}"`,`"${v[1]}"`,`"${v[2]}"`,`"${TENSE_LABEL[v[3]]||v[3]}"`,`"${v[4]}"`,`"${v[5]}"`,`"${v[6]?'yes':'no'}"`,`"${v[7]}"`,`"${v[8]||''}"`,`"${v[9]||''}"`].join(','));
+  dl([hdrs.join(','),...rows].join('\n'),'tanakh_concordance.csv','text/csv');
+}
+function exportAllCSV(){
+  const hdrs=['Ref','Word','Root','Tense_code','Tense_label','Binyan','PGN','Vav','Translation','Suffix_PGN','Suffix_Form'];
+  const rows=VERBS.map(v=>[`"${v[0]}"`,`"${v[1]}"`,`"${v[2]}"`,`"${v[3]}"`,`"${TENSE_LABEL[v[3]]||v[3]}"`,`"${v[4]}"`,`"${v[5]}"`,`"${v[6]?'yes':'no'}"`,`"${v[7]}"`,`"${v[8]||''}"`,`"${v[9]||''}"`].join(','));
+  dl([hdrs.join(','),...rows].join('\n'),'tanakh_concordance_FULL_'+new Date().toISOString().slice(0,10)+'.csv','text/csv');
+}
+function exportTSV(){
+  const hdrs=['Ref','Word','Root','Tense','Binyan','PGN','Vav','Translation'];
+  const rows=currentFiltered.map(v=>[v[0],v[1],v[2],TENSE_LABEL[v[3]]||v[3],v[4],v[5],v[6]?'yes':'no',v[7]].join('\t'));
+  dl([hdrs.join('\t'),...rows].join('\n'),'tanakh_concordance.tsv','text/tab-separated-values');
+}
+function exportHTML(){
+  const rows=currentFiltered.map(v=>`<tr><td>${v[0]}</td><td dir="rtl">${v[1]}</td><td dir="rtl">${v[2]}</td><td>${TENSE_LABEL[v[3]]||v[3]}</td><td>${v[4]}</td><td>${v[5]}</td><td>${v[6]?'✓':'—'}</td><td>${v[7]}</td></tr>`).join('');
+  dl(`<table border="1" cellpadding="4" style="border-collapse:collapse;font-family:Arial;font-size:13px"><thead style="background:#1B3A6B;color:white"><tr><th>Ref</th><th>Word</th><th>Root</th><th>Tense</th><th>Binyan</th><th>PGN</th><th>Vav</th><th>Translation</th></tr></thead><tbody>${rows}</tbody></table>`,'tanakh_concordance.html','text/html');
+}
+function exportPronCSV(){
+  const obj=OBJ_SFX.map(r=>`"${r[0]}","${r[1]}","${r[2]}","${r[3]}","${r[4]}","${r[5]}"`);
+  const poss=POSS_SFX.map(r=>`"${r[0]}","${r[1]}","${r[2]}","${r[3]}","${r[4]}","${r[5]}","${r[6]}","${r[8]}"`);
+  dl(['OBJ SUFFIXES ON VERBS','Person,PGN,Suffix,Avar(שמר),Atid(ישמר),Meaning',...obj,'','POSS SUFFIXES ON NOUNS','Person,PGN,Suffix,סוס-sg,סוס-pl,תורה-sg,תורה-pl,Meaning',...poss].join('\n'),'pronoun_suffixes.csv','text/csv');
+}
+function exportPronHTML(){
+  const obj=OBJ_SFX.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td dir="rtl">${r[2]}</td><td dir="rtl">${r[3]}</td><td dir="rtl">${r[4]}</td><td>${r[5]}</td></tr>`).join('');
+  const poss=POSS_SFX.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td dir="rtl">${r[2]}</td><td dir="rtl">${r[3]}</td><td dir="rtl">${r[4]}</td><td dir="rtl">${r[5]}</td><td dir="rtl">${r[6]}</td><td>${r[8]}</td></tr>`).join('');
+  dl(`<h2>Object Suffixes on Verbs</h2><table border="1" cellpadding="4" style="border-collapse:collapse;font-family:Arial"><thead style="background:#1B3A6B;color:white"><tr><th>Person</th><th>PGN</th><th>Suffix</th><th>שָׁמַר+sfx</th><th>יִשְׁמֹר+sfx</th><th>Meaning</th></tr></thead><tbody>${obj}</tbody></table><br><h2>Possessive Suffixes on Nouns</h2><table border="1" cellpadding="4" style="border-collapse:collapse;font-family:Arial"><thead style="background:#1B3A6B;color:white"><tr><th>Person</th><th>PGN</th><th>Suffix</th><th>סוּס sg</th><th>סוּסִים pl</th><th>תּוֹרָה sg</th><th>תּוֹרוֹת pl</th><th>Meaning</th></tr></thead><tbody>${poss}</tbody></table>`,'pronoun_suffixes.html','text/html');
+}
+
+// PERSISTENCE
+const STORAGE_KEY='tanakh_concordance_db_v2';
+const SEED_COUNT=101;
+function saveDB(){
+  try{
+    const extra=VERBS.slice(SEED_COUNT);
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(extra));
+    document.getElementById('save-indicator').textContent='✓ Saved '+new Date().toLocaleTimeString();
+    updateStorageStatus();
+  }catch(e){document.getElementById('save-indicator').textContent='⚠ Save failed';}
+}
+function loadDB(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw)return 0;
+    const extra=JSON.parse(raw);
+    if(!Array.isArray(extra)||!extra.length)return 0;
+    VERBS.push(...extra);return extra.length;
+  }catch(e){return 0;}
+}
+function updateStorageStatus(){
+  const el=document.getElementById('storage-status');if(!el)return;
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY),extra=raw?JSON.parse(raw):[];
+    const kb=(raw?new Blob([raw]).size:0)/1024;
+    if(!extra.length){el.textContent='No extra verbs saved yet. Parsed verbs are saved automatically.';}
+    else{const books=[...new Set(extra.map(v=>v[0]?.split(' ')[0]||'?'))];el.textContent=`✓ ${extra.length} verbs saved (${kb.toFixed(1)} KB) · Books: ${books.join(', ')}`;}
+  }catch(e){el.textContent='localStorage unavailable.';}
+}
+function resetDB(){
+  if(!confirm('Reset to seed data only? Export a backup first.\n\nThis removes all parsed verbs.'))return;
+  VERBS.length=0;VERBS.push(...SEED_VERBS);
+  try{localStorage.removeItem(STORAGE_KEY);}catch(e){}
+  expandedKeys.clear();rebuildSelects();render();updateStorageStatus();
+  document.getElementById('save-indicator').textContent='✓ Reset complete';
+}
+function importCSV(input){
+  const file=input.files[0];if(!file)return;
+  const st=document.getElementById('import-status');st.textContent='Reading…';
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const text=e.target.result.replace(/^\uFEFF/,'');
+      const lines=text.split('\n').filter(l=>l.trim());
+      if(!lines.length){st.textContent='Empty file.';return;}
+      const hasHdr=lines[0].includes('Ref')||lines[0].includes('Word');
+      const data=hasHdr?lines.slice(1):lines;
+      let added=0;
+      const existing=new Set(VERBS.map(v=>v[0]+'|'+v[1]));
+      data.forEach(line=>{
+        if(!line.trim())return;
+        const cols=(line.match(/(".*?"|[^,]+)(?=,|$)/g)||[]).map(c=>c.replace(/^"|"$/g,'').trim());
+        if(cols.length<7)return;
+        let ref,word,root,tense,binyan,pgn,vav,eng,sp,sf;
+        if(cols.length>=9){[ref,word,root,tense,,binyan,pgn,vav,eng,sp,sf]=cols;}
+        else{[ref,word,root]=cols;const lmap={'עָבַר Past':'avar','הוֹוֶה Present':'hove','עָתִיד Future':'atid','צִיווּי Imper.':'tzivui','אינפ׳ Inf.':'inf'};tense=lmap[cols[3]]||cols[3];binyan=cols[4];pgn=cols[5];vav=cols[6];eng=cols[7]||'';}
+        const k=ref+'|'+word;if(existing.has(k))return;existing.add(k);
+        const row=[ref||'?',word||'',root||'',tense||'avar',binyan||'Qal',pgn||'—',vav==='yes'||vav===true,eng||''];
+        if(sp){row.push(sp);row.push(sf||'');}
+        VERBS.push(row);added++;
+      });
+      saveDB();rebuildSelects();render();
+      st.textContent=`✓ Imported ${added} verbs. Total: ${VERBS.length}.`;st.style.color='#1a5c2a';
+    }catch(err){st.textContent='Error: '+err.message;st.style.color='#8b1a1a';}
+    input.value='';
+  };
+  reader.readAsText(file,'UTF-8');
+}
+
+// ══════════════════════════════════════════════════
+// CONTEXT MODAL
+// ══════════════════════════════════════════════════
+function openCtxFromData(row){
+  let v;
+  try{ v=JSON.parse(row.getAttribute('data-v').replace(/&quot;/g,'"')); }
+  catch(e){ return; }
+  openCtxVerb(v);
+}
+
+// Reverse map: our Hebrew abbreviations → Sefaria English book name (underscores for spaces)
+const ABBREV_TO_SEFARIA={
+  'בר':'Genesis','שמ':'Exodus','ויק':'Leviticus','במד':'Numbers','דב':'Deuteronomy',
+  'יהו':'Joshua','שו':'Judges','שמא':'I_Samuel','שמב':'II_Samuel',
+  'מלא':'I_Kings','מלב':'II_Kings','יש':'Isaiah','יר':'Jeremiah','יח':'Ezekiel',
+  'הו':'Hosea','יו':'Joel','עמ':'Amos','עב':'Obadiah','יונ':'Jonah','מי':'Micah',
+  'נחו':'Nahum','חב':'Habakkuk','צפ':'Zephaniah','חג':'Haggai','זכ':'Zechariah','מל':'Malachi',
+  'תה':'Psalms','מש':'Proverbs','אי':'Job','שה':'Song_of_Songs','רו':'Ruth',
+  'קה':'Ecclesiastes','אס':'Esther','דנ':'Daniel','עז':'Ezra','נחמ':'Nehemiah',
+  'דה1':'I_Chronicles','דה2':'II_Chronicles',
+};
+
+async function fetchPasuk(bookAbbrev, chap, verse){
+  const sefBook=ABBREV_TO_SEFARIA[bookAbbrev];
+  if(!sefBook||!chap||!verse||verse<=0) return null;
+  // Sefaria format: Book_Name.Chapter.Verse (underscores, no URL encoding needed)
+  const url=`https://www.sefaria.org/api/texts/${sefBook}.${chap}.${verse}?lang=he&context=0`;
+  try{
+    const r=await fetch(url);
+    if(!r.ok) return null;
+    const d=await r.json();
+    let raw=d.he||'';
+    if(Array.isArray(raw)) raw=raw[0]||'';
+    return raw.replace(/<[^>]+>/g,'').replace(/\u200f/g,'').trim()||null;
+  }catch(e){ return null; }
+}
+
+function highlightWordInVerse(verseText, word){
+  // Strip nikud from word for a more robust match
+  const stripNikud=s=>s.replace(/[\u0591-\u05C7]/g,'');
+  const wStripped=stripNikud(word);
+  // Split verse into tokens, wrap matching ones
+  const tokens=verseText.split(/(\s+)/);
+  let found=false;
+  return tokens.map(tok=>{
+    if(!found && stripNikud(tok)===wStripped){
+      found=true;
+      return`<mark>${tok}</mark>`;
+    }
+    return tok;
+  }).join('');
+}
+
+async function openCtxVerb(v){
+  const[ref,word,root,tense,binyan,pgn,vav,eng,sfxPgn,sfxForm]=v;
+  const panel=document.getElementById('ctx-panel');
+  const bd=document.getElementById('ctx-backdrop');
+  if(!panel) return;
+
+  document.getElementById('ctx-verb-big').textContent=word;
+  document.getElementById('ctx-root').innerHTML='שורש: <span>'+root+'</span>';
+  document.getElementById('ctx-ref').textContent=ref;
+
+  document.getElementById('ctx-meta').innerHTML=
+    `<span class="pill" style="${TENSE_STYLE[tense]||''}">${TENSE_LABEL[tense]||tense}</span>`+
+    `<span class="pill" style="${BINYAN_STYLE[binyan]||''}">${(BINYAN_HEB[binyan]||binyan)+' '+binyan}</span>`+
+    `<span class="pill" style="background:var(--cream-dark);color:var(--ink-mid)">${pgn}</span>`+
+    (vav?`<span class="pill" style="background:#E6F5E9;color:#1a5c2a">ו consec.</span>`:'')+
+    `<span class="pill" style="background:var(--cream-mid);color:var(--ink-light);font-style:italic">${eng}</span>`;
+
+  const sfxBox=document.getElementById('ctx-sfx-box');
+  if(sfxBox&&sfxPgn){sfxBox.style.display='inline';document.getElementById('ctx-sfx-val').textContent=(sfxForm||sfxPgn)+' → '+sfxPgn;}
+  else if(sfxBox){sfxBox.style.display='none';}
+
+  const occ=VERBS.filter(x=>x[1]===word&&x[2]===root);
+  const occEl=document.getElementById('ctx-occ-list');
+  if(occEl) occEl.innerHTML=occ.length
+    ? occ.map(x=>`<div class="ctx-occ-item" onclick="openCtxVerb(VERBS.find(vv=>vv[0]==='${x[0].replace(/\\/g,'\\\\').replace(/'/g,"\\'")}'&&vv[1]==='${x[1].replace(/\\/g,'\\\\').replace(/'/g,"\\'")}'))">${x[0]} — <em>${x[7]}</em></div>`).join('')
+    : '<div style="font-size:11px;color:var(--ink-faint);font-style:italic">—</div>';
+
+  const pasukEl=document.getElementById('ctx-pasuk');
+  if(pasukEl) pasukEl.innerHTML='<span class="ctx-pasuk-loading">טוֹעֵן…</span>';
+  ctxMinimized=false;
+  panel.classList.remove('minimized');
+  panel.classList.add('open');
+  document.body.classList.add('panel-open');
+  document.addEventListener('keydown',ctxKey);
+
+  if(pasukEl){
+    const r=parseRef(ref);
+    console.log('ctx ref:',ref,'→',JSON.stringify(r));
+    if(r&&r.chap&&r.verse){
+      const txt=await fetchPasuk(r.book,r.chap,r.verse);
+      if(txt){ pasukEl.innerHTML=highlightWordInVerse(txt,word); }
+      else{
+        const fallback=VERBS.filter(x=>x[0]===ref).map(x=>x[1]).join(' ');
+        pasukEl.innerHTML=fallback
+          ? `<span style="opacity:.7">${highlightWordInVerse(fallback,word)}</span><br><span class="ctx-pasuk-err">Full verse unavailable — showing parsed verbs only</span>`
+          : `<span class="ctx-pasuk-err">Verse unavailable — check your connection</span>`;
+      }
+    } else {
+      pasukEl.innerHTML=`<span class="ctx-pasuk-err">Unrecognised ref: ${ref}</span>`;
+    }
+  }
+}
+
+let ctxMinimized=false;
+function toggleCtxPanel(){
+  const p=document.getElementById('ctx-panel');
+  ctxMinimized=!ctxMinimized;
+  p.classList.toggle('minimized',ctxMinimized);
+  const btn=p.querySelector('.ctx-btn-minimize');
+  if(btn) btn.textContent=ctxMinimized?'▲ Expand':'▼ Minimize';
+}
+function ctxKey(e){ if(e.key==='Escape') closeCtx(); }
+function closeCtx(){
+  const p=document.getElementById('ctx-panel');
+  if(p){p.classList.remove('open','minimized');}
+  document.body.classList.remove('panel-open');
+  ctxMinimized=false;
+  document.removeEventListener('keydown',ctxKey);
+}
+
+// ══════════════════════════════════════════════════
+// COLUMN SORTING (verb table)
+// ══════════════════════════════════════════════════
+let sortState={col:-1,dir:1};
+// canonical sort order for tenses
+const TENSE_ORDER={avar:0,atid:1,hove:2,tzivui:3,inf:4,inf_abs:5};
+
+function sortBy(col){
+  if(sortState.col===col) sortState.dir*=-1;
+  else{ sortState.col=col; sortState.dir=1; }
+  // Update header arrows (both class-based and span-based)
+  document.querySelectorAll('#tab-verbs th.sortable').forEach(th=>{
+    th.classList.remove('asc','desc');
+    if(parseInt(th.getAttribute('data-col'))===col)
+      th.classList.add(sortState.dir===1?'asc':'desc');
+  });
+  // Update sort-arrow spans
+  document.querySelectorAll('[id^="sa-verb-"]').forEach(el=>el.className='sort-arrow');
+  const colNames=['ref','word','root','tense','binyan','pgn','vav','en'];
+  const spanId='sa-verb-'+(colNames[col]||col);
+  const span=document.getElementById(spanId);
+  if(span)span.className='sort-arrow '+(sortState.dir===1?'asc':'desc');
+  render();
+}
+
+
+// ══════════════════════════════════════════════════
+// INIT
+const SEED_VERBS=VERBS.map(v=>[...v]);
+buildParadigmChips();
+buildSfxParadigmChips();
+buildPronounTables();
+const loaded=loadDB();
+const loadedSfx=loadSfxDB();
+rebuildSelects();
+render();
+setTimeout(updateStorageStatus,100);
+if(loaded>0)document.getElementById('save-indicator').textContent=`✓ Loaded ${loaded} saved verbs`;
+</script>
+
+<!-- ════════ CONTEXT MODAL ════════ -->
+<!-- ════════ BOTTOM PANEL ════════ -->
+<div id="ctx-panel" class="ctx-panel">
+  <div class="ctx-panel-handle">
+    <div class="ctx-panel-left" onclick="toggleCtxPanel()">
+      <div class="ctx-panel-ref" id="ctx-ref"></div>
+      <div class="ctx-panel-word" id="ctx-verb-big"></div>
+    </div>
+    <div class="ctx-panel-actions">
+      <button class="ctx-btn-minimize" onclick="toggleCtxPanel()" title="Minimize">▼ Minimize</button>
+      <button class="ctx-btn-close" onclick="closeCtx()" title="Close">✕</button>
+    </div>
+  </div>
+  <div class="ctx-panel-body">
+    <!-- Full pasuk -->
+    <div class="ctx-pasuk-col">
+      <div class="ctx-col-label">פסוק — Full verse</div>
+      <div class="ctx-pasuk" id="ctx-pasuk"><span class="ctx-pasuk-loading">…</span></div>
+    </div>
+    <!-- Verb info -->
+    <div class="ctx-info-col">
+      <div class="ctx-col-label">Morphology</div>
+      <div class="ctx-root-line" id="ctx-root"></div>
+      <div class="ctx-meta" id="ctx-meta" style="margin-top:.35rem"></div>
+      <div id="ctx-sfx-box" style="display:none;margin-top:.5rem">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-light);margin-bottom:2px">Pronominal suffix</div>
+        <div id="ctx-sfx-val" style="font-family:'Frank Ruhl Libre',serif;font-size:14px;direction:rtl;color:var(--navy)"></div>
+      </div>
+    </div>
+    <!-- All occurrences -->
+    <div class="ctx-occ-col">
+      <div class="ctx-col-label">All occurrences</div>
+      <div class="ctx-occ-list" id="ctx-occ-list"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ STATS TAB ════════ -->
+<div id="tab-stats" style="display:none">
+<div class="controls">
+  <span class="ctrl-label">Scope:</span>
+  <select id="stats-scope" onchange="renderStats()">
+    <option value="all">Whole database</option>
+    <option value="filtered">Current filter</option>
+  </select>
+  <span id="stats-scope-note" style="font-size:11px;color:var(--ink-faint);font-style:italic;margin-left:6px"></span>
+</div>
+<div class="main-content">
+  <div class="summary-nums" id="stats-summary"></div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-card-title">Top 15 Roots</div><div class="bar-chart" id="chart-roots"></div></div>
+    <div class="stat-card"><div class="stat-card-title">Tense Distribution</div><div class="bar-chart" id="chart-tense"></div></div>
+    <div class="stat-card"><div class="stat-card-title">Binyan Distribution</div><div class="bar-chart" id="chart-binyan"></div></div>
+    <div class="stat-card"><div class="stat-card-title">Top PGN Forms</div><div class="bar-chart" id="chart-pgn"></div></div>
+  </div>
+  <div class="stat-card" style="margin-bottom:2rem">
+    <div class="stat-card-title">Full Root Frequency</div>
+    <div class="bar-chart" id="chart-roots-full"></div>
+  </div>
+</div>
+</div><!-- end stats tab -->
+
+</body>
+</html>
