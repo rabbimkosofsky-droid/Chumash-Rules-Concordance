@@ -1686,10 +1686,12 @@ Return ONLY: {"suffixed":[...]} — no markdown, no explanation.`;
 
   const chunks=chunkText(text,2500);
 
+const API_ENDPOINT='https://chumash-prox.rabbimkosofsky.workers.dev';
+
   async function callAI(sys,userMsg){
     for(let att=0;att<3;att++){
       try{
-        const r=await fetch("https://api.anthropic.com/v1/messages",{
+        const r=await fetch(API_ENDPOINT,{
           method:"POST",headers:{"Content-Type":"application/json"},
           body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:4096,system:sys,
             messages:[{role:"user",content:userMsg}]})
