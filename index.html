@@ -1696,19 +1696,17 @@ const API_ENDPOINT='https://chumash-prox.rabbimkosofsky.workers.dev';
           body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:4096,system:sys,
             messages:[{role:"user",content:userMsg}]})
         });
-        if(!r.ok){
-          const et=await r.text();
-          if(r.status===529||r.status===503){await sleep(2500*(att+1));continue;}
-          throw new Error(`API ${r.status}`);
-        }
         const d=await r.json();
-        // Handle error responses from API or proxy
+        if(!r.ok){
+          if(r.status===529||r.status===503){await sleep(2500*(att+1));continue;}
+          const msg=d.error?.message||JSON.stringify(d).slice(0,200);
+          autoLog(`  ⚠ API error ${r.status}: ${msg}`,'log-warn');
+          throw new Error(`API ${r.status}: ${msg}`);
+        }
         if(d.error){throw new Error(d.error.message||JSON.stringify(d.error));}
         if(!d.content){
-          // Some proxies wrap the response differently
-          const wrapped=d.body||d.result||d.data||d.response;
-          if(wrapped&&wrapped.content) d.content=wrapped.content;
-          else throw new Error('Unexpected response shape: '+JSON.stringify(d).slice(0,200));
+          autoLog(`  ⚠ No content field. Full response: ${JSON.stringify(d).slice(0,400)}`,'log-warn');
+          throw new Error('No content in response: '+JSON.stringify(d).slice(0,200));
         }
         const raw=d.content.map(c=>c.text||'').join('').replace(/```json|```/g,'').trim();
         const ji=raw.indexOf('{');
